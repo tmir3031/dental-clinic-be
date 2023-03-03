@@ -8,9 +8,6 @@
         <comment>Create sequence for generating surrogate keys for specialization.</comment>
         <createSequence sequenceName="SPECIALIZATION_ID_SQ"/>
 
-        <comment>Create sequence for generating surrogate keys for treatment.</comment>
-        <createSequence sequenceName="TREATMENT_ID_SQ"/>
-
         <comment>Create sequence for generating surrogate keys for appointment.</comment>
         <createSequence sequenceName="APPOINTMENT_ID_SQ"/>
 
@@ -18,13 +15,10 @@
 
     <changeSet author="raluca.timonea" id="001">
         <createTable tableName="SPECIALIZATION" remarks="Specialization details.">
-            <column name="SPECIALIZATION_ID" type="BIGINT" remarks="Generated surrogate key.">
+            <column name="ID" type="BIGINT" remarks="Generated surrogate key.">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="SPECIALIZATION_PK"/>
             </column>
             <column name="NAME" type="VARCHAR2(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="DESCRIPTION" type="VARCHAR2(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="V" type="INT" remarks="Technical version of this record">
@@ -85,7 +79,7 @@
             <column name="SPECIALIZATION_ID" type="BIGINT" remarks="Id of specialization">
                 <constraints nullable="false"
                         foreignKeyName="SPECIALIZATION_USER_SPECIALIZATION_FK"
-                        references="SPECIALIZATION(SPECIALIZATION_ID)"/>
+                        references="SPECIALIZATION(ID)"/>
             </column>
         </createTable>
 
@@ -146,29 +140,6 @@
             </column>
         </createTable>
 
-        <createTable remarks="Treatment details." tableName="TREATMENT">
-            <column name="ID" remarks="Generated surrogate key." type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="TREATMENT_ID"/>
-            </column>
-            <column name="SPECIALIZATION_ID" remarks="Id of the specialization that treatment"
-                    type="BIGINT">
-                <constraints foreignKeyName="TREATMENT_SPECIALIZATION_FK"
-                             nullable="false"
-                             references="SPECIALIZATION(SPECIALIZATION_ID)"/>
-            </column>
-            <column name="PRICE" remarks="Price for treatment"
-                    type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="NAME" remarks="Name for treatment"
-                    type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="V" type="INT" remarks="Technical version of this record">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
         <createTable remarks="Days off details." tableName="DAYS_OFF">
             <column name="DAYS_OFF_ID" remarks="Generated surrogate key." type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="DAYS_OFF_ID"/>
@@ -197,6 +168,5 @@
     <changeSet author="raluca.timonea" id="002">
         <comment>Initial Load Team details</comment>
         <loadData file="includes/data-specialization-initial-load.csv" tableName="SPECIALIZATION" relativeToChangelogFile="true"/>
-        <loadData file="includes/data-treatment-initial-load.csv" tableName="TREATMENT" relativeToChangelogFile="true"/>
     </changeSet>
 </databaseChangeLog>

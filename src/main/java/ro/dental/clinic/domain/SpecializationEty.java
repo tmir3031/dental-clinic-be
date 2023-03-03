@@ -19,8 +19,9 @@ public class SpecializationEty extends SrgKeyEntityTml<Long> {
 
     @Column(name = "NAME")
     private String name;
-    @Column(name = "DESCRIPTION")
-    private String description;
+
+    @Column(name = "V")
+    private Long v;
 
     @Override
     protected Class<? extends SrgKeyEntityTml<Long>> entityRefClass() {

@@ -6,6 +6,6 @@ import lombok.Data;
 public class SpecializationDetailsListItem {
     private Long id;
     private String name;
-    private String description;
+    private Long v;
 
 }
