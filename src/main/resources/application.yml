@@ -8,7 +8,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://localhost:8080/auth/realms/axon/protocol/openid-connect/certs
+          jwk-set-uri: http://localhost:8080/auth/realms/dental-clinic/protocol/openid-connect/certs
   datasource:
     url: "jdbc:postgresql://localhost:5432/dental_clinic"
     username: postgres
@@ -39,20 +39,20 @@ spring:
     default-property-inclusion: non_absent
     serialization:
       write-dates-as-timestamps: false
-ro.axon.dot:
+ro.dental.clinic:
   caches:
     specs:
       - name: CONFIG_CACHE
         timeout: 100000
   roles:
     - USER
-    - HR
-    - TEAM_LEAD
+    - ADMIN
+    - DOCTOR
   keycloak:
     api:
       base-url: http://localhost:8080/auth
       users:
-        path: /admin/realms/axon/users
+        path: /admin/realms/dental-clinic/users
       login:
         path: /realms/{realm}/protocol/openid-connect/token
       logout:
@@ -60,13 +60,13 @@ ro.axon.dot:
       create-admin-access-token:
         path: /realms/master/protocol/openid-connect/token
       create-user-access-token:
-        path: /realms/axon/protocol/openid-connect/token
+        path: /realms/dental-clinic/protocol/openid-connect/token
       user-realm-roles:
         path: /role-mappings/realm
       realm-roles:
-        path: /admin/realms/axon/roles
+        path: /admin/realms/dental-clinic/roles
     user-realm:
-      name: axon
+      name: dental-clinic
       client-id: webapp
       client-secret: webapp
       grant-type: password
@@ -75,7 +75,7 @@ ro.axon.dot:
         password: admin
 logging:
   level:
-    ro.axon.dot: TRACE
+    ro.dental.clinic: TRACE
     org.springframework: ERROR
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
