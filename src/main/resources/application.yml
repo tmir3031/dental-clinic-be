@@ -1,4 +1,14 @@
+server:
+  port: 8081
+  servlet:
+    contextPath: /core
+
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8080/auth/realms/axon/protocol/openid-connect/certs
   datasource:
     url: "jdbc:postgresql://localhost:5432/dental_clinic"
     username: postgres
@@ -29,8 +39,43 @@ spring:
     default-property-inclusion: non_absent
     serialization:
       write-dates-as-timestamps: false
-
-server.port: 8081
-server:
-  servlet:
-    contextPath: /core
+ro.axon.dot:
+  caches:
+    specs:
+      - name: CONFIG_CACHE
+        timeout: 100000
+  roles:
+    - USER
+    - HR
+    - TEAM_LEAD
+  keycloak:
+    api:
+      base-url: http://localhost:8080/auth
+      users:
+        path: /admin/realms/axon/users
+      login:
+        path: /realms/{realm}/protocol/openid-connect/token
+      logout:
+        path: /realms/{realm}/protocol/openid-connect/logout
+      create-admin-access-token:
+        path: /realms/master/protocol/openid-connect/token
+      create-user-access-token:
+        path: /realms/axon/protocol/openid-connect/token
+      user-realm-roles:
+        path: /role-mappings/realm
+      realm-roles:
+        path: /admin/realms/axon/roles
+    user-realm:
+      name: axon
+      client-id: webapp
+      client-secret: webapp
+      grant-type: password
+      tech-user:
+        username: admin
+        password: admin
+logging:
+  level:
+    ro.axon.dot: TRACE
+    org.springframework: ERROR
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
