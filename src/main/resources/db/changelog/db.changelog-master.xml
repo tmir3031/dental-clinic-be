@@ -64,6 +64,9 @@
             <column name="STATUS" type="VARCHAR(255)" remarks="Status of user">
                 <constraints nullable="false"/>
             </column>
+            <column name="DESCRIPTION" type="VARCHAR(255)" remarks="Description of user">
+                <constraints nullable="false"/>
+            </column>
             <column name="V" type="INT" remarks="Technical version of this record">
                 <constraints nullable="false"/>
             </column>
@@ -170,5 +173,6 @@
     <changeSet author="raluca.timonea" id="002">
         <comment>Initial Load Team details</comment>
         <loadData file="includes/data-specialization-initial-load.csv" tableName="SPECIALIZATION" relativeToChangelogFile="true"/>
+        <loadData file="includes/data-users-initial-load.csv" tableName="CLIENT" relativeToChangelogFile="true"/>
     </changeSet>
 </databaseChangeLog>

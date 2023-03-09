@@ -1,0 +1,8 @@
+USER_ID,USERNAME,FIRST_NAME,LAST_NAME,EMAIL,CRT_USR,CRT_TMS,MDF_USR,MDF_TMS,ROLE,STATUS,DESCRIPTION,V
+117d5050-476d-4ddf-bfa4-ed253e7d1e12,claudiu.timonea,Claudiu,Timonea,claudiu.timonea@yahoo.com,5e06244b-187a-442a-9aa5-1dbd14385bad,2022-08-11,5e06244b-187a-442a-9aa5-1dbd14385bad,2022-08-11,USER,ACTIVE,,0
+5e06244b-187a-442a-9aa5-1dbd14385bad,raluca.timonea,Raluca,Timonea,raluca.timonea@yahoo.com,5e06244b-187a-442a-9aa5-1dbd14385bad,2022-08-11,5e06244b-187a-442a-9aa5-1dbd14385bad,2022-08-11,ADMIN,ACTIVE,Admin,0
+de32c8d1-b644-4f3c-a51a-a9c59fb39486,bogdan.boncea,Bogdan,Boncea,bogdan.boncea@yahoo.com,5e06244b-187a-442a-9aa5-1dbd14385bad,2022-08-11,5e06244b-187a-442a-9aa5-1dbd14385bad,2022-08-11,USER,ACTIVE,Sanatos tun,0
+e54c8a84-d2c4-44f1-8104-ce707d12ab38,paula.petrinca,Paula,Petrinca,paula.petrinca@yahoo.com,5e06244b-187a-442a-9aa5-1dbd14385bad,2022-08-11,5e06244b-187a-442a-9aa5-1dbd14385bad,2022-08-11,DOCTOR,ACTIVE,Medic chirurgie maxilo-faciala UMF Cluj,0
+1c67d352-a559-4ff0-981b-35fc8d6448cd,roxana.apetrei,Roxana,Apetrei,roxana.apetrei@yahoo.com,5e06244b-187a-442a-9aa5-1dbd14385bad,2022-08-11,5e06244b-187a-442a-9aa5-1dbd14385bad,2022-08-11,DOCTOR,ACTIVE,Ortodont UMF Targu Mures,0
+5bf1ec1c-4cca-46cc-984e-5758704a59a0,sergiu.bilc,Sergiu,Bilc,sergiu.bilc@yahoo.com,5e06244b-187a-442a-9aa5-1dbd14385bad,2022-08-11,5e06244b-187a-442a-9aa5-1dbd14385bad,2022-08-11,DOCTOR,ACTIVE,Generalist UMF Cluj,0
+5335db68-d07d-4e1c-9c0e-82055fb421e2,test.user,Test,User,test.user@yahoo.com,5e06244b-187a-442a-9aa5-1dbd14385bad,2022-08-11,5e06244b-187a-442a-9aa5-1dbd14385bad,2022-08-11,USER,ACTIVE,,0

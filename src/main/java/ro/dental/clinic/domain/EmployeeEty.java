@@ -39,7 +39,8 @@ public class EmployeeEty extends SrgKeyEntityTml<String> {
     @Column(name = "STATUS")
     @Enumerated(EnumType.STRING)
     private EmployeeStatus status;
-
+    @Column(name = "DESCRIPTION")
+    private String description;
     @OneToMany(
             mappedBy = "employee",
             cascade = CascadeType.ALL,
