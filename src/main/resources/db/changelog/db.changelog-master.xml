@@ -101,7 +101,7 @@
             <column name="ID" type="BIGINT" remarks="Generated surrogate key.">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="APPOINTMENT_ID"/>
             </column>
-            <column name="USER_ID" type="VARCHAR2(255)"
+            <column name="DOCTOR_ID" type="VARCHAR2(255)"
                     remarks="Id of the user that appointment">
                 <constraints nullable="false"
                              foreignKeyName="APPOINTMENT_USER_FK"
@@ -134,11 +134,11 @@
                 <constraints nullable="false"/>
             </column>
             <column name="DESCRIPTION" type="VARCHAR(255)" remarks="Description of appointment">
-                <constraints nullable="true"/>
+                <constraints nullable="false"/>
             </column>
             <column name="REJECT_REASON" type="VARCHAR(255)"
                     remarks="Reason of the rejection of appointment">
-                <constraints nullable="true"/>
+                <constraints nullable="false"/>
             </column>
             <column name="V" type="INT" remarks="Technical version of this record">
                 <constraints nullable="false"/>
@@ -174,5 +174,6 @@
         <comment>Initial Load Team details</comment>
         <loadData file="includes/data-specialization-initial-load.csv" tableName="SPECIALIZATION" relativeToChangelogFile="true"/>
         <loadData file="includes/data-users-initial-load.csv" tableName="CLIENT" relativeToChangelogFile="true"/>
+        <loadData file="includes/data-appointments-initial-load.csv" tableName="APPOINTMENT" relativeToChangelogFile="true"/>
     </changeSet>
 </databaseChangeLog>

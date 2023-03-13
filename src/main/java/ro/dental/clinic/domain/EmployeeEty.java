@@ -60,12 +60,12 @@ public class EmployeeEty extends SrgKeyEntityTml<String> {
     }
 
 
-    public void addLeaveRequest(AppointmentEty appointmentEty) {
+    public void addAppointment(AppointmentEty appointmentEty) {
         appointmentEtyList.add(appointmentEty);
         appointmentEty.setEmployee(this);
     }
 
-    public void removeLeaveRequest(AppointmentEty appointmentEty) {
+    public void removeAppointment(AppointmentEty appointmentEty) {
         appointmentEtyList.remove(appointmentEty);
         appointmentEty.setEmployee(null);
     }

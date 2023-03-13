@@ -32,10 +32,10 @@ public class AppointmentEty extends SrgKeyEntityTml<Long> {
     private Instant mdfTms;
 
     @Column(name = "DATE")
-    private LocalDate startDate;
+    private LocalDate date;
 
     @Column(name = "HOUR")
-    private String endDate;
+    private String hour;
 
     @Column(name = "STATUS")
     @Enumerated(EnumType.STRING)
@@ -44,15 +44,14 @@ public class AppointmentEty extends SrgKeyEntityTml<Long> {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SPECIALIZATION")
-    private SpecializationEty specialization;
+    @Column(name = "SPECIALIZATION")
+    private String specialization;
 
     @Column(name = "REJECT_REASON")
     private String rejectReason;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "DOCTOR_ID")
     private EmployeeEty employee;
 
     @Override
