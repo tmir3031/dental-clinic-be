@@ -10,4 +10,5 @@ public class AppointmentCreationRequest {
     private String hour;
     private LocalDate date;
     private String specialization;
+    private String doctorId;
 }

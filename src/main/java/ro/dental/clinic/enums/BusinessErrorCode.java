@@ -33,7 +33,8 @@ public enum BusinessErrorCode {
     DATES_NOT_FOUND("EDOT0022400", "The dates cannot be null"),
     EMPLOYEE_ROLE_NOT_FOUND("EDOT0023400", "Invalid role"),
     EMPLOYEE_USERNAME_CONFLICT("EDOT0024400", "Employee username is already used"),
-    KEYCLOAK_TOKEN_DETAILS_MISSING_USER_ID("EDOT0025404", "User id not found in token details!");
+    KEYCLOAK_TOKEN_DETAILS_MISSING_USER_ID("EDOT0025404", "User id not found in token details!"),
+    APPOINTMENT_ALREADY_APPROVED("EDOT0026400", "The time slot for the chosen doctor is not available");
 
     private final String errorCode;
     private final String devMsg;

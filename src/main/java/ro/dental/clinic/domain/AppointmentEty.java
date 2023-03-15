@@ -7,6 +7,7 @@ import ro.dental.clinic.enums.AppointmentStatus;
 import javax.persistence.*;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "APPOINTMENT")

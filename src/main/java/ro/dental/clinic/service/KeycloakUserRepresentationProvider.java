@@ -19,8 +19,7 @@ public class KeycloakUserRepresentationProvider {
     private final KeycloakProperties keycloakProperties;
 
     public KeycloakUserRepresentation createKeycloakUserRepresentationFromDto(UserDetails userDetails) {
-        String password = passwordGenerator.generatePassword(userDetails);
-
+        String password = userDetails.getPassword();
         KeycloakUserCredentials keycloakCredentials = new KeycloakUserCredentials();
         keycloakCredentials.setType(keycloakProperties.getUserRealm().getGrantType());
         keycloakCredentials.setValue(password);

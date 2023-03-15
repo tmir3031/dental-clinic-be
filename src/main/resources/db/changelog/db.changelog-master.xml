@@ -9,7 +9,7 @@
         <createSequence sequenceName="SPECIALIZATION_ID_SQ"/>
 
         <comment>Create sequence for generating surrogate keys for appointment.</comment>
-        <createSequence sequenceName="APPOINTMENT_ID_SQ"/>
+        <createSequence sequenceName="APPOINTMENT_ID_SQ" startValue="10"/>
 
         <comment>Create sequence for generating surrogate keys for team employee</comment>
         <createSequence sequenceName="USER_SPECIALIZATION_ID_SQ" startValue="1"/>

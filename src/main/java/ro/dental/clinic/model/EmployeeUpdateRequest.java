@@ -2,17 +2,13 @@ package ro.dental.clinic.model;
 
 import lombok.Data;
 
-import java.time.LocalDate;
-
 @Data
-public class EmployeeCreationRequest {
+public class EmployeeUpdateRequest {
 
-    private String username;
     private String firstName;
     private String lastName;
     private String email;
     private String role;
-    private String password;
-    private String description;
     private Long specializationId;
+    private Long v;
 }

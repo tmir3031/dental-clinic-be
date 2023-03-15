@@ -15,7 +15,7 @@ public interface EmployeeCreationRequestToUserDetailsMapper {
             Mappers.getMapper(EmployeeCreationRequestToUserDetailsMapper.class);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "password", ignore = true)
+    // @Mapping(target = "password", ignore = true)
     @Mapping(target = "role", source = "role", qualifiedByName = "convertRole")
     UserDetails toUserDetails(EmployeeCreationRequest request);
 
