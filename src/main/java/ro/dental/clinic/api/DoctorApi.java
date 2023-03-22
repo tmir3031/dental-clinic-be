@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import ro.dental.clinic.domain.AppointmentEty;
+import ro.dental.clinic.model.AppointmentReview;
 import ro.dental.clinic.model.DoctorDetailList;
 import ro.dental.clinic.service.DoctorService;
 
@@ -28,14 +29,14 @@ public class DoctorApi {
         return ResponseEntity.ok(doctorService.getDoctorDetails());
     }
 
-//    @PatchMapping("/{doctorId}/appointments/{appointmentId}")
-//    @Secured({"ROLE_DOCTOR"})
-//    public ResponseEntity<Void> patchLeaveRequest(@PathVariable String doctorId,
-//                                                  @PathVariable Long appointmentId,
-//                                                  @RequestBody LeaveRequestReview leaveRequestReview) {
-//        doctorService.patchAppointment(doctorId, appointmentId, leaveRequestReview);
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
+    @PatchMapping("/{doctorId}/appointments/{appointmentId}")
+    @Secured({"ROLE_DOCTOR"})
+    public ResponseEntity<Void> patchLeaveRequest(@PathVariable String doctorId,
+                                                  @PathVariable Long appointmentId,
+                                                  @RequestBody AppointmentReview appointmentReview) {
+        doctorService.patchAppointment(doctorId, appointmentId, appointmentReview);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
     // TODO trebuie sa trimita o notificare pentru userul caruia i-a anulat programarea
     @DeleteMapping("/requests/{requestId}")

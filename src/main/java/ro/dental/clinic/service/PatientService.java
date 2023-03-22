@@ -65,7 +65,7 @@ public class PatientService {
                                PatientUpdateRequest patientUpdateRequest) {
 
         var patientEty = patientRepository.findAll().stream().filter(patient -> patient.getId().equals(patientId)).findFirst().orElseThrow(() -> new BusinessException(List.of(BusinessException.BusinessExceptionElement.builder()
-                .errorCode(BusinessErrorCode.EMPLOYEE_NOT_FOUND)
+                .errorCode(BusinessErrorCode.USER_NOT_FOUND)
                 .build())));
         ;
 
@@ -123,11 +123,11 @@ public class PatientService {
     public void createAppointment(String patientId, AppointmentCreationRequest creationRequest) {
         var patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new BusinessException(List.of(BusinessException.BusinessExceptionElement.builder()
-                        .errorCode(BusinessErrorCode.EMPLOYEE_NOT_FOUND)
+                        .errorCode(BusinessErrorCode.USER_NOT_FOUND)
                         .build())));
         var doctor = doctorRepository.findById(creationRequest.getDoctorId())
                 .orElseThrow(() -> new BusinessException(List.of(BusinessException.BusinessExceptionElement.builder()
-                        .errorCode(BusinessErrorCode.EMPLOYEE_NOT_FOUND)
+                        .errorCode(BusinessErrorCode.USER_NOT_FOUND)
                         .build())));
         List<AppointmentEty> appointments = appointmentRepository.findAll()
                 .stream()
