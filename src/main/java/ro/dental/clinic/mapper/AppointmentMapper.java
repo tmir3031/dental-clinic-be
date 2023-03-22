@@ -25,7 +25,7 @@ public interface AppointmentMapper {
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "v", ignore = true)
     @Mapping(target = "doctor", ignore = true)
-    @Mapping(target = "description", ignore = true)
+    @Mapping(target = "treatment", ignore = true)
     AppointmentEty mapAppointmentCreationRequestToAppointmentEty(AppointmentCreationRequest appointmentCreationRequest);
 
 }

@@ -31,10 +31,10 @@ public class AppointmentService {
                                     .contains(filters.getSearch().toUpperCase())
                                     || appointment.getDoctor().getUser().getLastName().toUpperCase()
                                     .contains(filters.getSearch().toUpperCase())))
-            &&
-                    (filters.getId_doctor() == null || (
-                            appointment.getDoctor().getUser().getUserId().contains(filters.getId_doctor())
-                            ));
+                    &&
+                    (filters.getUserId() == null || (
+                            appointment.getDoctor().getUser().getUserId().contains(filters.getUserId())
+                    ) || appointment.getPatient().getUser().getUserId().contains(filters.getUserId()));
 
     @AllArgsConstructor
     @Getter
@@ -43,14 +43,16 @@ public class AppointmentService {
 
         private String status;
         private String search;
-        private String id_doctor;
+        private String userId;
+
     }
 
     @Transactional
     public AppointmentDetailsList getAppointmentsDetails(String status, String search) {
         var appointmentDetailsList = new AppointmentDetailsList();
         var appointmentStream = appointmentRepository.findAll().stream();
-        AppointmentFilter appointmentFilter = new AppointmentFilter(status, search, securityAccessTokenProvider.getUserIdFromAuthToken());
+        String userId = securityAccessTokenProvider.getUserIdFromAuthToken();
+        AppointmentFilter appointmentFilter = new AppointmentFilter(status, search, userId);
 
         Comparator<AppointmentDetailsListItem> compareByStatus =
                 Comparator.comparing(

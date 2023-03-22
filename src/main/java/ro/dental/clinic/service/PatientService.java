@@ -9,7 +9,6 @@ import ro.dental.clinic.enums.BusinessErrorCode;
 import ro.dental.clinic.enums.UserStatus;
 import ro.dental.clinic.exceptions.BusinessException;
 import ro.dental.clinic.mapper.AppointmentMapper;
-import ro.dental.clinic.mapper.DoctorMapper;
 import ro.dental.clinic.mapper.PatientCreationRequestToUserDetailsMapper;
 import ro.dental.clinic.mapper.PatientMapper;
 import ro.dental.clinic.model.*;
@@ -161,7 +160,7 @@ public class PatientService {
         newAppointment.setMdfTms(instant);
         newAppointment.setMdfUsr(patient.getId());
         newAppointment.setStatus(AppointmentStatus.APPROVED);
-        newAppointment.setDescription(creationRequest.getDescription());
+        newAppointment.setTreatment("");
         appointmentRepository.save(newAppointment);
      }
 

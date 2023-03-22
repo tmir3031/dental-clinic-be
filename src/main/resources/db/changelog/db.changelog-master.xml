@@ -161,7 +161,7 @@
             <column name="STATUS" type="VARCHAR(255)" remarks="Status of user" defaultValue="PENDING">
                 <constraints nullable="false"/>
             </column>
-            <column name="DESCRIPTION" type="VARCHAR(255)" remarks="Description of appointment">
+            <column name="TREATMENT" type="VARCHAR(255)" remarks="The doctor mentions the treatment applied for this appointment">
                 <constraints nullable="false"/>
             </column>
             <column name="V" type="INT" remarks="Technical version of this record">

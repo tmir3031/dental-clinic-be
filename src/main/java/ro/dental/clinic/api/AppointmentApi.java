@@ -2,7 +2,6 @@ package ro.dental.clinic.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,13 +11,12 @@ import ro.dental.clinic.service.AppointmentService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/requests")
+@RequestMapping("/api/v1/appointments")
 public class AppointmentApi {
 
     private final AppointmentService appointmentService;
 
     @GetMapping
-    @Secured({"ROLE_ADMIN", "ROLE_DOCTOR"})
     public ResponseEntity<AppointmentDetailsList> getLeaveRequestDetailsList(
             @RequestParam(value = "status", required = false) String status,
             @RequestParam(value = "search", required = false) String search) {
