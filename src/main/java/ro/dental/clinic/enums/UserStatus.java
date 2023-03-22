@@ -1,6 +1,6 @@
 package ro.dental.clinic.enums;
 
-public enum EmployeeStatus {
+public enum UserStatus {
     ACTIVE,
     INACTIVE
 }

@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.dental.clinic.model.*;
-import ro.dental.clinic.model.LoginResponseUserDetails.SpecializationDetails;
-import ro.dental.clinic.service.EmployeeService;
 import ro.dental.clinic.service.UserService;
 import ro.dental.clinic.utils.JwtTokenClaimsParser;
 
@@ -23,7 +21,6 @@ import java.util.Map;
 public class LoginApi {
 
     private final UserService userService;
-    private final EmployeeService employeeService;
     private final JwtTokenClaimsParser jwtTokenClaimsParser;
 
     @PostMapping("/login")
@@ -61,21 +58,10 @@ public class LoginApi {
     private LoginResponseUserDetails getUserDetails(String accessToken) {
         var userDetails = new LoginResponseUserDetails();
         Map<String, Object> claims = jwtTokenClaimsParser.getJwtTokenClaims(accessToken);
-        userDetails.setEmployeeId(claims.get("sub").toString());
+        userDetails.setUserId(claims.get("sub").toString());
         userDetails.setUsername(claims.get("preferred_username").toString());
         userDetails.setRole(jwtTokenClaimsParser.getUserRole(claims));
-        var specializationDetails = employeeService.getEmployeeSpecializationDetails(userDetails.getEmployeeId());
-
-        log.warn("specializationDetails of user " + claims.get("sub").toString() + " is null");
-        if (specializationDetails != null)
-            userDetails.setSpecializationDetails(SpecializationDetails.builder()
-                    .specializationName(specializationDetails.getName())
-                    .specializationId(specializationDetails.getId())
-                    .build());
-
         return userDetails;
     }
-
-
 
 }

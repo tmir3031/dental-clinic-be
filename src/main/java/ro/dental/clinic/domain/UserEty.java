@@ -2,7 +2,7 @@ package ro.dental.clinic.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import ro.dental.clinic.enums.EmployeeStatus;
+import ro.dental.clinic.enums.UserStatus;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -12,12 +12,12 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "CLIENT")
-public class EmployeeEty extends SrgKeyEntityTml<String> {
+@Table(name = "USR")
+public class UserEty extends SrgKeyEntityTml<String> {
 
     @Id
     @Column(name = "USER_ID")
-    private String employeeId;
+    private String userId;
     @Column(name = "USERNAME")
     private String username;
     @Column(name = "FIRST_NAME")
@@ -36,38 +36,27 @@ public class EmployeeEty extends SrgKeyEntityTml<String> {
     private Instant mdfTms;
     @Column(name = "ROLE")
     private String role;
+//    @Column(name = "DESCRIPTION")
+//    private String description;
     @Column(name = "STATUS")
     @Enumerated(EnumType.STRING)
-    private EmployeeStatus status;
-    @Column(name = "DESCRIPTION")
-    private String description;
-    @OneToMany(
-            mappedBy = "employee",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<AppointmentEty> appointmentEtyList = new ArrayList<>();
+    private UserStatus status;
+//    @OneToMany(
+//            mappedBy = "patient",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true
+//    )
+//  private List<AppointmentEty> appointmentEtyList = new ArrayList<>();
 
 
     @Override
     protected Class<? extends SrgKeyEntityTml<String>> entityRefClass() {
-        return EmployeeEty.class;
+        return UserEty.class;
     }
 
     @Override
     public String getId() {
-        return this.getEmployeeId();
-    }
-
-
-    public void addAppointment(AppointmentEty appointmentEty) {
-        appointmentEtyList.add(appointmentEty);
-        appointmentEty.setEmployee(this);
-    }
-
-    public void removeAppointment(AppointmentEty appointmentEty) {
-        appointmentEtyList.remove(appointmentEty);
-        appointmentEty.setEmployee(null);
+        return this.userId;
     }
 
 }

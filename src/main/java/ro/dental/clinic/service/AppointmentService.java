@@ -7,8 +7,6 @@ import lombok.Setter;
 import org.springframework.stereotype.Service;
 import ro.dental.clinic.domain.AppointmentEty;
 import ro.dental.clinic.domain.AppointmentRepository;
-import ro.dental.clinic.domain.EmployeeRepository;
-import ro.dental.clinic.domain.SpecializationUserRepository;
 import ro.dental.clinic.mapper.AppointmentMapper;
 import ro.dental.clinic.model.AppointmentDetailsList;
 import ro.dental.clinic.model.AppointmentDetailsListItem;
@@ -29,13 +27,13 @@ public class AppointmentService {
             (filters.getStatus() == null || filters.getStatus().equals(appointment.getStatus().name()))
                     &&
                     (filters.getSearch() == null || (
-                            appointment.getEmployee().getFirstName().toUpperCase()
+                            appointment.getDoctor().getUser().getFirstName().toUpperCase()
                                     .contains(filters.getSearch().toUpperCase())
-                                    || appointment.getEmployee().getLastName().toUpperCase()
+                                    || appointment.getDoctor().getUser().getLastName().toUpperCase()
                                     .contains(filters.getSearch().toUpperCase())))
             &&
                     (filters.getId_doctor() == null || (
-                            appointment.getEmployee().getEmployeeId().contains(filters.getId_doctor())
+                            appointment.getDoctor().getUser().getUserId().contains(filters.getId_doctor())
                             ));
 
     @AllArgsConstructor

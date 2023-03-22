@@ -35,8 +35,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/v1/refresh").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/v1/logout").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/requests").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1/employees").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v1/patients").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/v1/employees").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/v1/patients").permitAll()
 
                 .antMatchers(HttpMethod.POST, "/api/v1/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/api/v1/**").authenticated()

@@ -9,6 +9,5 @@ public class AppointmentCreationRequest {
     private String description;
     private String hour;
     private LocalDate date;
-    private String specialization;
     private String doctorId;
 }

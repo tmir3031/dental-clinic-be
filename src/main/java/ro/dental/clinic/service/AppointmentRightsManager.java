@@ -10,6 +10,7 @@ import ro.dental.clinic.utils.TimeManager;
 
 import java.time.Clock;
 import java.util.List;
+import java.util.Optional;
 
 import static ro.dental.clinic.enums.AppointmentStatus.APPROVED;
 import static ro.dental.clinic.enums.AppointmentStatus.REJECTED;

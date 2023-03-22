@@ -9,7 +9,6 @@ import java.time.LocalDate;
 @Data
 public class AppointmentDetailsListItem {
     private Long id;
-    private String crtUsr;
     private Instant crtTms;
     private String mdfUsr;
     private Instant mdfTms;
@@ -17,8 +16,8 @@ public class AppointmentDetailsListItem {
     private String hour;
     private AppointmentStatus status;
     private String description;
-    private String rejectReason;
     private Long v;
-    private EmployeeDetailsListItem employeeDetails;
+    private EmployeeDetailsListItem doctorDetails;
+    private EmployeeDetailsListItem patientDetails;
 
 }

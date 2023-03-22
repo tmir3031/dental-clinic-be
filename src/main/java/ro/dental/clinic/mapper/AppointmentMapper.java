@@ -13,18 +13,19 @@ public interface AppointmentMapper {
 
     AppointmentMapper INSTANCE = Mappers.getMapper(AppointmentMapper.class);
 
-    @Mapping(source = "employee", target = "employeeDetails")
+    @Mapping(source = "doctor.user", target = "doctorDetails")
+    @Mapping(source = "patient.user", target = "patientDetails")
     AppointmentDetailsListItem mapLeaveRequestEtyToLeaveRequestDto(AppointmentEty appointmentEty);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "crtUsr", ignore = true)
+    @Mapping(target = "patient", ignore = true)
     @Mapping(target = "crtTms", ignore = true)
     @Mapping(target = "mdfUsr", ignore = true)
     @Mapping(target = "mdfTms", ignore = true)
     @Mapping(target = "status", ignore = true)
-    @Mapping(target = "rejectReason", ignore = true)
     @Mapping(target = "v", ignore = true)
-    @Mapping(target = "employee", ignore = true)
+    @Mapping(target = "doctor", ignore = true)
+    @Mapping(target = "description", ignore = true)
     AppointmentEty mapAppointmentCreationRequestToAppointmentEty(AppointmentCreationRequest appointmentCreationRequest);
 
 }

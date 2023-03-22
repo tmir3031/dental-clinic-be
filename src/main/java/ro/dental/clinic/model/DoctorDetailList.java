@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class EmployeeDetailList {
+public class DoctorDetailList {
 
-    private List<EmployeeDetailListItem> items;
+    private List<DoctorDetailListItem> items;
 }

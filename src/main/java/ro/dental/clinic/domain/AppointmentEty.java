@@ -7,10 +7,9 @@ import ro.dental.clinic.enums.AppointmentStatus;
 import javax.persistence.*;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "APPOINTMENT")
+@Table(name = "APPOINTMENT", schema = "public")
 @Getter
 @Setter
 @SequenceGenerator(name = "APPOINTMENT_ID_SQ", sequenceName = "APPOINTMENT_ID_SQ", allocationSize = 1)
@@ -19,9 +18,6 @@ public class AppointmentEty extends SrgKeyEntityTml<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "APPOINTMENT_ID_SQ")
     private Long id;
-
-    @Column(name = "CRT_USR")
-    private String crtUsr;
 
     @Column(name = "CRT_TMS")
     private Instant crtTms;
@@ -45,15 +41,13 @@ public class AppointmentEty extends SrgKeyEntityTml<Long> {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "SPECIALIZATION")
-    private String specialization;
-
-    @Column(name = "REJECT_REASON")
-    private String rejectReason;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = DoctorEty.class)
     @JoinColumn(name = "DOCTOR_ID")
-    private EmployeeEty employee;
+    private DoctorEty doctor;
+
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = PatientEty.class)
+    @JoinColumn(name = "PATIENT_ID")
+    private PatientEty patient;
 
     @Override
     protected Class<? extends SrgKeyEntityTml<Long>> entityRefClass() {
@@ -63,7 +57,7 @@ public class AppointmentEty extends SrgKeyEntityTml<Long> {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof AppointmentEty )) return false;
+        if (!(o instanceof AppointmentEty)) return false;
         return id != null && id.equals(((AppointmentEty) o).getId());
     }
 

@@ -7,6 +7,6 @@ public class EmployeeDetailsListItem {
 
     private String firstName;
     private String lastName;
-    private String employeeId;
+    private String userId;
 }
 
