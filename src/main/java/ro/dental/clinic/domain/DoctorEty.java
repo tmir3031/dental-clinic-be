@@ -36,14 +36,6 @@ public class DoctorEty extends SrgKeyEntityTml<String> implements Serializable {
     )
     private List<AppointmentEty> appointmentEtyList = new ArrayList<>();
 
-//    @OneToMany(
-//            mappedBy = "doctor",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true
-//    )
-//    private List<SpecializationDoctorEty> specializationDoctorEtyList = new ArrayList<>();
-//
-
     @ManyToMany
     @JoinTable(
             name = "DOCTOR_SPECIALIZATION",

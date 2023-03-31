@@ -27,11 +27,10 @@ public class PatientService {
 
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
+    private final PatientHandler patientHandler;
     private final TimeManager timeManager;
     private final AppointmentRepository appointmentRepository;
 
-    private final SpecializationDoctorRepository specializationDoctorRepository;
-    private final SpecializationRepository specializationRepository;
     private final KeycloakClientApi keycloakClientApi;
     private final SecurityAccessTokenProvider securityAccessTokenProvider;
 
@@ -61,8 +60,8 @@ public class PatientService {
     }
 
     @Transactional
-    public void updateEmployee(String patientId,
-                               PatientUpdateRequest patientUpdateRequest) {
+    public void updatePatient(String patientId,
+                              PatientUpdateRequest patientUpdateRequest) {
 
         var patientEty = patientRepository.findAll().stream().filter(patient -> patient.getId().equals(patientId)).findFirst().orElseThrow(() -> new BusinessException(List.of(BusinessException.BusinessExceptionElement.builder()
                 .errorCode(BusinessErrorCode.USER_NOT_FOUND)
@@ -82,7 +81,7 @@ public class PatientService {
         }
 
         setMdfUsrAndTms(patientEty);
-        updateEmployee(patientEty, patientUpdateRequest);
+        updatePatient(patientEty, patientUpdateRequest);
 
         patientRepository.save(patientEty);
     }
@@ -92,8 +91,8 @@ public class PatientService {
         patientEty.getUser().setMdfTms(timeManager.instant());
     }
 
-    private void updateEmployee(PatientEty patientEty,
-                                PatientUpdateRequest patientUpdateRequest) {
+    private void updatePatient(PatientEty patientEty,
+                               PatientUpdateRequest patientUpdateRequest) {
         var oldUserEty = patientEty.getUser();
         Optional.ofNullable(patientUpdateRequest.getFirstName()).ifPresent(oldUserEty::setFirstName);
         Optional.ofNullable(patientUpdateRequest.getLastName()).ifPresent(oldUserEty::setLastName);
@@ -162,7 +161,13 @@ public class PatientService {
         newAppointment.setStatus(AppointmentStatus.APPROVED);
         newAppointment.setTreatment("");
         appointmentRepository.save(newAppointment);
-     }
+    }
+
+    @Transactional
+
+    public PatientCreationRequest getPatientById(String patientId) {
+       return (patientHandler.handlePatientDetails(patientId));
+    }
 
 
     // ------------------------------------------------------------------------------------------------------------------

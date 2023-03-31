@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import ro.dental.clinic.model.AppointmentDetailsList;
 import ro.dental.clinic.service.AppointmentService;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/appointments")
@@ -22,6 +24,13 @@ public class AppointmentApi {
             @RequestParam(value = "search", required = false) String search) {
         return ResponseEntity.ok(
                 appointmentService.getAppointmentsDetails(status, search));
+    }
+
+    @GetMapping("/free-time-slot/{doctorId}")
+    public ResponseEntity<List<String>> getFreeTimeSlotForADay(
+            @RequestParam(value = "date") String date) {
+        return ResponseEntity.ok(
+                appointmentService.getFreeTimeSlotForADay(date));
     }
 
 }

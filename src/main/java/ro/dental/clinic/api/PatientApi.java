@@ -5,9 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.dental.clinic.model.AppointmentCreationRequest;
-import ro.dental.clinic.model.PatientCreationRequest;
-import ro.dental.clinic.model.PatientUpdateRequest;
+import ro.dental.clinic.domain.PatientEty;
+import ro.dental.clinic.model.*;
 import ro.dental.clinic.service.PatientService;
 
 import javax.validation.Valid;
@@ -18,6 +17,12 @@ import javax.validation.Valid;
 @RequestMapping("/api/v1/patients")
 public class PatientApi {
     private final PatientService patientService;
+
+    @GetMapping("/{patientId}")
+    public ResponseEntity<PatientCreationRequest> getPatientById(@PathVariable String patientId) {
+        return ResponseEntity.ok(patientService.getPatientById(patientId));
+    }
+
 
     @PostMapping
     public ResponseEntity<Void> createPatient(
@@ -42,9 +47,9 @@ public class PatientApi {
     }
 
     @PatchMapping("/{patientId}")
-    public ResponseEntity<Void> updateEmployee(@PathVariable String patientId,
-                                               @Valid @RequestBody PatientUpdateRequest patientUpdateRequest) {
-        patientService.updateEmployee(patientId, patientUpdateRequest);
+    public ResponseEntity<Void> updatePatient(@PathVariable String patientId,
+                                              @Valid @RequestBody PatientUpdateRequest patientUpdateRequest) {
+        patientService.updatePatient(patientId, patientUpdateRequest);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

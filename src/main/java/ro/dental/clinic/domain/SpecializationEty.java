@@ -24,13 +24,6 @@ public class SpecializationEty extends SrgKeyEntityTml<Long> {
 
     @Column(name = "V")
     private Long v;
-//
-//    @OneToMany(
-//            mappedBy = "specialization",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true
-//    )
-//    private List<SpecializationDoctorEty> specializationDoctorEtyList = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(

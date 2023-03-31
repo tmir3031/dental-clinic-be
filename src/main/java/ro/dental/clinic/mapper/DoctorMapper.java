@@ -15,7 +15,7 @@ import ro.dental.clinic.model.DoctorDetailListItem;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR, componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, uses = SpecializationMapper.class)
 public interface DoctorMapper {
 
-    // DoctorMapper INSTANCE = Mappers.getMapper(DoctorMapper.class);
+    DoctorMapper INSTANCE = Mappers.getMapper(DoctorMapper.class);
 
     @Mapping(target = "specializationDetailsListItem", source = "specializationEtyList")
     @Mapping(target = "username",source = "user.username")
@@ -24,6 +24,7 @@ public interface DoctorMapper {
     @Mapping(target = "role",source = "user.role")
     @Mapping(target = "status",source = "user.status")
     @Mapping(target = "lastName",source = "user.lastName")
+    @Mapping(target = "gender",source = "user.gender")
     DoctorDetailListItem mapDoctorEtyToDoctorDto(DoctorEty doctorEty);
 
 

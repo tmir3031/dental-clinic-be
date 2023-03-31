@@ -19,6 +19,7 @@ public class DoctorDetailListItem {
 //    private String mdfUsr;
 //    private Instant mdfTms;
     private String role;
+    private String gender;
     private UserStatus status;
     private Long v;
     private String description;

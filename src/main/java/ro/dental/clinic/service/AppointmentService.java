@@ -12,7 +12,9 @@ import ro.dental.clinic.model.AppointmentDetailsList;
 import ro.dental.clinic.model.AppointmentDetailsListItem;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 
@@ -68,6 +70,21 @@ public class AppointmentService {
                         .collect(Collectors.toList()));
 
         return appointmentDetailsList;
+    }
+
+    @Transactional
+    public List<String> getFreeTimeSlotForADay(String date) {
+        var appointments = appointmentRepository.findAll().stream().filter(appointmentEty -> appointmentEty.getDate().equals(date)).collect(Collectors.toList());
+        List<String> freeTimeSlot = new ArrayList<>();
+        freeTimeSlot.add("09:00");
+        freeTimeSlot.add("10:00");
+        freeTimeSlot.add("11:00");
+        freeTimeSlot.add("12:00");
+        freeTimeSlot.add("13:00");
+        freeTimeSlot.add("14:00");
+        freeTimeSlot.add("15:00");
+        freeTimeSlot.add("16:00");
+        return freeTimeSlot;
     }
 
 }
