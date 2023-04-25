@@ -17,6 +17,7 @@ import ro.dental.clinic.utils.TimeManager;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiPredicate;
 
 import static java.util.Objects.isNull;
 
@@ -34,9 +35,14 @@ public class DoctorService {
     private final SecurityAccessTokenProvider securityAccessTokenProvider;
 
     @Transactional
-    public DoctorDetailList getDoctorDetails() {
+    public DoctorDetailList getDoctorDetails(Long specializationId) {
         var doctorDetailList = new DoctorDetailList();
-        doctorDetailList.setItems(doctorHandler.handleDoctorSpecializationDetails());
+        if(specializationId == null) {
+            doctorDetailList.setItems(doctorHandler.handleDoctorSpecializationDetails());
+        }
+        else{
+            doctorDetailList.setItems(doctorHandler.handleDoctorSpecializationDetails(specializationId));
+        }
         return doctorDetailList;
     }
 

@@ -24,8 +24,10 @@ public class DoctorApi {
     private final DoctorService doctorService;
 
     @GetMapping
-    public ResponseEntity<DoctorDetailList> getDoctorDetailsList() {
-        return ResponseEntity.ok(doctorService.getDoctorDetails());
+    public ResponseEntity<DoctorDetailList> getDoctorDetailsList(
+            @RequestParam(value = "specializationId", required = false) Long specializationId
+    ) {
+        return ResponseEntity.ok(doctorService.getDoctorDetails(specializationId));
     }
 
     @PatchMapping("/{doctorId}/appointments/{appointmentId}")

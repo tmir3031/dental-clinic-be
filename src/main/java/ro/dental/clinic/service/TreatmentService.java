@@ -14,9 +14,9 @@ public class TreatmentService {
 
     private final TreatmentRepository treatmentRepository;
 
-    public TreatmentDetailsList getTreatmentDetails() {
+    public TreatmentDetailsList getTreatmentDetails(String type) {
         var treatmentDetailsList = new TreatmentDetailsList();
-        treatmentDetailsList.setItems(treatmentRepository.findAll().stream().map(TreatmentMapper.INSTANCE::mapTreatmentEtyToTreatmentDto)
+        treatmentDetailsList.setItems(treatmentRepository.findAll().stream().filter(treatmentEty -> treatmentEty.getType().equals(type)).map(TreatmentMapper.INSTANCE::mapTreatmentEtyToTreatmentDto)
                 .collect(Collectors.toList()));
         return treatmentDetailsList;
     }
