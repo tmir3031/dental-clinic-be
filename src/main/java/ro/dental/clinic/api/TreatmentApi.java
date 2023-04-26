@@ -16,7 +16,7 @@ public class TreatmentApi {
     private final TreatmentService treatmentService;
 
     @GetMapping("prices")
-    public ResponseEntity<TreatmentDetailsList> getTreatments (@RequestParam(value = "type") String type) {
-        return ResponseEntity.ok(treatmentService.getTreatmentDetails(type));
+    public ResponseEntity<TreatmentDetailsList> getTreatments () {
+        return ResponseEntity.ok(treatmentService.getTreatmentDetails());
     }
 }

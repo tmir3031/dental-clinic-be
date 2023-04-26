@@ -74,11 +74,11 @@ public class PatientService {
                     .build()));
         }
 
-        if (patientUpdateRequest.getV() < patientEty.getV()) {
-            throw new BusinessException(List.of(BusinessException.BusinessExceptionElement.builder()
-                    .errorCode(BusinessErrorCode.EMPLOYEE_CONFLICT)
-                    .build()));
-        }
+//        if (patientUpdateRequest.getV() < patientEty.getV()) {
+//            throw new BusinessException(List.of(BusinessException.BusinessExceptionElement.builder()
+//                    .errorCode(BusinessErrorCode.EMPLOYEE_CONFLICT)
+//                    .build()));
+//        }
 
         setMdfUsrAndTms(patientEty);
         updatePatient(patientEty, patientUpdateRequest);
@@ -96,14 +96,10 @@ public class PatientService {
         var oldUserEty = patientEty.getUser();
         Optional.ofNullable(patientUpdateRequest.getFirstName()).ifPresent(oldUserEty::setFirstName);
         Optional.ofNullable(patientUpdateRequest.getLastName()).ifPresent(oldUserEty::setLastName);
-        Optional.ofNullable(patientUpdateRequest.getEmail()).ifPresent(oldUserEty::setEmail);
-        Optional.ofNullable(patientUpdateRequest.getRole()).ifPresent(role -> {
-            UserDetails credentials = new UserDetails();
-            credentials.setId(patientEty.getId());
-            credentials.setRole("ROLE_" + patientEty.getUser().getRole());
-            keycloakClientApi.updateRoleOfUserWithCredentials(credentials, "ROLE_" + role);
-            patientEty.getUser().setRole(role);
-        });
+        Optional.ofNullable(patientUpdateRequest.getGender()).ifPresent(oldUserEty::setGender);
+        patientEty.setAllergies(patientUpdateRequest.getAllergies());
+        patientEty.setPhone(patientUpdateRequest.getPhone());
+        patientEty.setChronicDiseases(patientUpdateRequest.getDiseases());
         patientEty.setUser(oldUserEty);
     }
 
