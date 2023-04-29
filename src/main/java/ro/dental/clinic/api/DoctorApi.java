@@ -7,10 +7,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import ro.dental.clinic.domain.AppointmentEty;
-import ro.dental.clinic.model.AppointmentReview;
-import ro.dental.clinic.model.DoctorDetailList;
+import ro.dental.clinic.domain.DoctorEty;
+import ro.dental.clinic.domain.PatientEty;
+import ro.dental.clinic.model.*;
 import ro.dental.clinic.service.DoctorService;
+import ro.dental.clinic.service.PatientService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
@@ -22,6 +25,25 @@ import java.util.function.Function;
 public class DoctorApi {
 
     private final DoctorService doctorService;
+
+    private final PatientService patientService;
+
+    @PostMapping
+    public ResponseEntity<Void> createDoctor(
+            @Valid @RequestBody DoctorCreationRequest userCreationRequest) {
+        doctorService.createDoctor(userCreationRequest);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{doctorId}")
+    public ResponseEntity<DoctorDetailListItem> getDoctorById(@PathVariable String doctorId) {
+        return ResponseEntity.ok(doctorService.getDoctorById(doctorId));
+    }
+
+    @GetMapping("/my-patients/{doctorId}")
+    public ResponseEntity<PatientDetailList> getAllMyPatient(@PathVariable String doctorId) {
+        return ResponseEntity.ok(patientService.getAllPatientDTOsForADoctor(doctorId));
+    }
 
     @GetMapping
     public ResponseEntity<DoctorDetailList> getDoctorDetailsList(

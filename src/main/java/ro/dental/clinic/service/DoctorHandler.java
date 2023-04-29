@@ -2,13 +2,13 @@ package ro.dental.clinic.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ro.dental.clinic.domain.DoctorRepository;
-import ro.dental.clinic.domain.SpecializationDoctorRepository;
-import ro.dental.clinic.domain.SpecializationRepository;
+import ro.dental.clinic.domain.*;
 import ro.dental.clinic.mapper.DoctorMapper;
 import ro.dental.clinic.model.DoctorDetailListItem;
+import ro.dental.clinic.model.PatientCreationRequest;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component

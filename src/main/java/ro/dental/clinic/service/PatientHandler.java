@@ -7,6 +7,7 @@ import ro.dental.clinic.domain.PatientRepository;
 import ro.dental.clinic.domain.UserRepository;
 import ro.dental.clinic.mapper.PatientMapper;
 import ro.dental.clinic.model.PatientCreationRequest;
+import ro.dental.clinic.model.PatientDetailListItem;
 
 import java.util.Optional;
 
@@ -33,6 +34,6 @@ public class PatientHandler {
         patientCreationRequest.setLastName(patient.getUser().getLastName());
         patientCreationRequest.setFirstName(patient.getUser().getFirstName());
         return patientCreationRequest;
-
     }
+
 }
