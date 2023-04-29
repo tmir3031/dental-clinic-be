@@ -15,7 +15,7 @@ public class AppointmentDetailsListItem {
     private LocalDate date;
     private String hour;
     private AppointmentStatus status;
-    private String description;
+    private String treatment;
     private Long v;
     private EmployeeDetailsListItem doctorDetails;
     private EmployeeDetailsListItem patientDetails;

@@ -1,12 +1,12 @@
 package ro.dental.clinic.model;
 
-import lombok.Builder;
 import lombok.Data;
+import ro.dental.clinic.domain.SpecializationEty;
 
-import java.time.LocalDate;
+import java.util.List;
 
 @Data
-public class PatientCreationRequest {
+public class DoctorCreationRequest {
 
     private String username;
     private String password;
@@ -14,11 +14,9 @@ public class PatientCreationRequest {
     private String lastName;
     private String email;
     private String role;
+    private String description;
     private String gender;
-    private String chronicDiseases;
-    private String allergies;
-    private LocalDate dateOfBirth;
-    private String phone;
+    private List<SpecializationEty> specializationEtyList;
 
 }
 

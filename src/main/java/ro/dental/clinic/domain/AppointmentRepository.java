@@ -6,6 +6,4 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface AppointmentRepository extends JpaRepository<AppointmentEty, Long> {
-    List<AppointmentEty> findByDateAndHourAndDoctor(LocalDate date, String hour, DoctorEty doctor);
-
 }

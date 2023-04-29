@@ -7,6 +7,7 @@ import org.mapstruct.factory.Mappers;
 import ro.dental.clinic.domain.AppointmentEty;
 import ro.dental.clinic.model.AppointmentCreationRequest;
 import ro.dental.clinic.model.AppointmentDetailsListItem;
+import ro.dental.clinic.model.PatientDetailListItem;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface AppointmentMapper {
@@ -25,7 +26,13 @@ public interface AppointmentMapper {
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "v", ignore = true)
     @Mapping(target = "doctor", ignore = true)
-    @Mapping(target = "description", ignore = true)
+    @Mapping(target = "treatment", ignore = true)
     AppointmentEty mapAppointmentCreationRequestToAppointmentEty(AppointmentCreationRequest appointmentCreationRequest);
+
+    @Mapping(source = "patient.id", target = "id")
+    @Mapping(source = "patient.user.firstName", target = "firstName")
+    @Mapping(source = "patient.user.lastName", target = "lastName")
+    @Mapping(source = "patient.phone", target = "phone")
+    PatientDetailListItem mapLeaveRequestEtyToPatientDto(AppointmentEty appointmentEty);
 
 }

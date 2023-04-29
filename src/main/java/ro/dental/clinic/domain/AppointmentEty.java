@@ -38,8 +38,8 @@ public class AppointmentEty extends SrgKeyEntityTml<Long> {
     @Enumerated(EnumType.STRING)
     private AppointmentStatus status;
 
-    @Column(name = "DESCRIPTION")
-    private String description;
+    @Column(name = "TREATMENT")
+    private String treatment;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = DoctorEty.class)
     @JoinColumn(name = "DOCTOR_ID")

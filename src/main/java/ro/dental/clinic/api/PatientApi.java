@@ -5,10 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.dental.clinic.model.AppointmentCreationRequest;
-import ro.dental.clinic.model.DoctorDetailList;
-import ro.dental.clinic.model.PatientUpdateRequest;
-import ro.dental.clinic.model.PatientCreationRequest;
+import ro.dental.clinic.domain.PatientEty;
+import ro.dental.clinic.model.*;
 import ro.dental.clinic.service.PatientService;
 
 import javax.validation.Valid;
@@ -20,6 +18,12 @@ import javax.validation.Valid;
 public class PatientApi {
     private final PatientService patientService;
 
+    @GetMapping("/{patientId}")
+    public ResponseEntity<PatientCreationRequest> getPatientById(@PathVariable String patientId) {
+        return ResponseEntity.ok(patientService.getPatientById(patientId));
+    }
+
+
     @PostMapping
     public ResponseEntity<Void> createPatient(
             @Valid @RequestBody PatientCreationRequest userCreationRequest) {
@@ -27,14 +31,14 @@ public class PatientApi {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/requests/{requestId}")
+    @DeleteMapping("/appointments/{appointmentId}")
     public ResponseEntity<Void> deleteAppointment(
-            @PathVariable Long requestId) {
-        patientService.deleteAppointment(requestId);
+            @PathVariable Long appointmentId) {
+        patientService.deleteAppointment(appointmentId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("/{patientId}/requests")
+    @PostMapping("/{patientId}/appointments")
     public ResponseEntity<Void> postAppointment(
             @PathVariable String patientId,
             @Valid @RequestBody AppointmentCreationRequest appointmentCreationRequest) {
@@ -43,9 +47,9 @@ public class PatientApi {
     }
 
     @PatchMapping("/{patientId}")
-    public ResponseEntity<Void> updateEmployee(@PathVariable String patientId,
-                                               @Valid @RequestBody PatientUpdateRequest patientUpdateRequest) {
-        patientService.updateEmployee(patientId, patientUpdateRequest);
+    public ResponseEntity<Void> updatePatient(@PathVariable String patientId,
+                                              @Valid @RequestBody PatientUpdateRequest patientUpdateRequest) {
+        patientService.updatePatient(patientId, patientUpdateRequest);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

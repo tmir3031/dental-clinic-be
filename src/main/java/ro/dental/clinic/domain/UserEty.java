@@ -36,18 +36,11 @@ public class UserEty extends SrgKeyEntityTml<String> {
     private Instant mdfTms;
     @Column(name = "ROLE")
     private String role;
-//    @Column(name = "DESCRIPTION")
-//    private String description;
+    @Column(name = "GENDER")
+    private String gender;
     @Column(name = "STATUS")
     @Enumerated(EnumType.STRING)
     private UserStatus status;
-//    @OneToMany(
-//            mappedBy = "patient",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true
-//    )
-//  private List<AppointmentEty> appointmentEtyList = new ArrayList<>();
-
 
     @Override
     protected Class<? extends SrgKeyEntityTml<String>> entityRefClass() {

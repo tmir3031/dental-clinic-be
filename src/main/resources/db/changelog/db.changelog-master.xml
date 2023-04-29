@@ -11,6 +11,9 @@
         <comment>Create sequence for generating surrogate keys for appointment.</comment>
         <createSequence sequenceName="APPOINTMENT_ID_SQ" startValue="10"/>
 
+        <comment>Create sequence for generating surrogate keys for appointment.</comment>
+        <createSequence sequenceName="TREATMENT_ID_SQ" startValue="100"/>
+
         <comment>Create sequence for generating surrogate keys for team employee</comment>
         <createSequence sequenceName="DOCTOR_SPECIALIZATION_ID_SQ" startValue="1"/>
     </changeSet>
@@ -64,6 +67,9 @@
             <column name="STATUS" type="VARCHAR(255)" remarks="Status of user">
                 <constraints nullable="false"/>
             </column>
+            <column name="GENDER" type="VARCHAR(255)" remarks="Gender of user">
+                <constraints nullable="true"/>
+            </column>
             <column name="V" type="INT" remarks="Technical version of this record">
                 <constraints nullable="false"/>
             </column>
@@ -94,12 +100,40 @@
                              primaryKey="true"
                              primaryKeyName="PATIENT_PK"/>
             </column>
-            <column name="DESCRIPTION" type="VARCHAR(255)" remarks="Description of doctor">
+            <column name="CHRONIC_DISEASES" type="VARCHAR(255)" remarks="Chronic diseases that the user suffers from">
+                <constraints nullable="true"/>
+            </column>
+            <column name="ALLERGIES" type="VARCHAR(255)" remarks="Allergies of the user">
+                <constraints nullable="true"/>
+            </column>
+            <column name="DATE_OF_BIRTH" type="DATETIME" remarks="The user's date of birth">
+                <constraints nullable="true"/>
+            </column>
+            <column name="PHONE" type="VARCHAR(255)" remarks="The user's phone number">
+                <constraints nullable="true"/>
+            </column>
+            <column name="V" type="INT" remarks="Technical version of this record">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="TREATMENT" remarks="Treatment details">
+            <column name="ID" type="BIGINT" remarks="Generated surrogate key.">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="TREATMENT_PK"/>
+            </column>
+            <column name="TYPE" type="VARCHAR2(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR2(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRICE" type="INT" remarks="Price for treatment">
                 <constraints nullable="false"/>
             </column>
             <column name="V" type="INT" remarks="Technical version of this record">
                 <constraints nullable="false"/>
             </column>
+
         </createTable>
 
         <createTable tableName="DOCTOR_SPECIALIZATION" remarks="Relationship between doctor and specialization details.">
@@ -108,13 +142,13 @@
             </column>
             <column name="DOCTOR_ID" type="VARCHAR(255)" remarks="Id of user">
                 <constraints nullable="false"
-                            foreignKeyName="SPECIALIZATION_USER_USER_FK"
+                             foreignKeyName="SPECIALIZATION_USER_USER_FK"
                              references="DOCTOR(USER_ID)"/>
             </column>
             <column name="SPECIALIZATION_ID" type="BIGINT" remarks="Id of specialization">
                 <constraints nullable="false"
-                        foreignKeyName="SPECIALIZATION_USER_SPECIALIZATION_FK"
-                        references="SPECIALIZATION(ID)"/>
+                             foreignKeyName="SPECIALIZATION_USER_SPECIALIZATION_FK"
+                             references="SPECIALIZATION(ID)"/>
             </column>
         </createTable>
 
@@ -161,8 +195,8 @@
             <column name="STATUS" type="VARCHAR(255)" remarks="Status of user" defaultValue="PENDING">
                 <constraints nullable="false"/>
             </column>
-            <column name="DESCRIPTION" type="VARCHAR(255)" remarks="Description of appointment">
-                <constraints nullable="false"/>
+            <column name="TREATMENT" type="VARCHAR(255)" remarks="The doctor mentions the treatment applied for this appointment">
+                <constraints nullable="true"/>
             </column>
             <column name="V" type="INT" remarks="Technical version of this record">
                 <constraints nullable="false"/>
@@ -201,5 +235,7 @@
         <loadData file="includes/data-doctors-initial-load.csv" tableName="DOCTOR" relativeToChangelogFile="true"/>
         <loadData file="includes/data-patients-initial-load.csv" tableName="PATIENT" relativeToChangelogFile="true"/>
         <loadData file="includes/data-appointments-initial-load.csv" tableName="APPOINTMENT" relativeToChangelogFile="true"/>
+        <loadData file="includes/data-treatments-initial-load.csv" tableName="TREATMENT" relativeToChangelogFile="true"/>
+        <loadData file="includes/data-doctor-specialization-initial-load.csv" tableName="DOCTOR_SPECIALIZATION" relativeToChangelogFile="true"/>
     </changeSet>
 </databaseChangeLog>
