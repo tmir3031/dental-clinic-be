@@ -14,7 +14,9 @@ import ro.dental.clinic.mapper.PatientMapper;
 import ro.dental.clinic.model.*;
 import ro.dental.clinic.utils.TimeManager;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
@@ -23,12 +25,14 @@ import static java.util.Objects.isNull;
 @RequiredArgsConstructor
 public class PatientService {
     private final AppointmentRightsManager appointmentRightsManager;
-
+    private static final String PREFERRED_LANGUAGE = "ro";
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
     private final PatientHandler patientHandler;
     private final TimeManager timeManager;
     private final AppointmentRepository appointmentRepository;
+
+    private final AppointmentHandler appointmentHandler;
 
     private final KeycloakClientApi keycloakClientApi;
     private final SecurityAccessTokenProvider securityAccessTokenProvider;
@@ -132,6 +136,15 @@ public class PatientService {
         newAppointment.setStatus(AppointmentStatus.APPROVED);
         newAppointment.setTreatment("");
         appointmentRepository.save(newAppointment);
+
+        appointmentHandler.sendNotificationApprovedAppointment(
+                newAppointment.getDoctor().getUser().getFirstName(),
+                newAppointment.getDoctor().getUser().getLastName(),
+                newAppointment.getHour(),
+                newAppointment.getDate(),
+                newAppointment.getPatient().getUser().getEmail(),
+                PREFERRED_LANGUAGE);
+
     }
 
     @Transactional
