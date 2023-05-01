@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.dental.clinic.domain.PatientEty;
+import ro.dental.clinic.email.SenderEmailService;
 import ro.dental.clinic.model.*;
 import ro.dental.clinic.service.PatientService;
 
@@ -17,6 +18,7 @@ import javax.validation.Valid;
 @RequestMapping("/api/v1/patients")
 public class PatientApi {
     private final PatientService patientService;
+    private final SenderEmailService senderEmailService;
 
     @GetMapping("/{patientId}")
     public ResponseEntity<PatientCreationRequest> getPatientById(@PathVariable String patientId) {
@@ -42,7 +44,9 @@ public class PatientApi {
     public ResponseEntity<Void> postAppointment(
             @PathVariable String patientId,
             @Valid @RequestBody AppointmentCreationRequest appointmentCreationRequest) {
+
         patientService.createAppointment(patientId, appointmentCreationRequest);
+        senderEmailService.sendEmail("timonea_raluca@yahoo.com", "Aici e un text", "aici e subiectul emailului");
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

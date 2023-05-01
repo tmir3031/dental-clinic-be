@@ -6,12 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ro.dental.clinic.domain.AppointmentEty;
 import ro.dental.clinic.domain.DoctorEty;
 import ro.dental.clinic.domain.PatientEty;
 import ro.dental.clinic.model.*;
 import ro.dental.clinic.service.DoctorService;
 import ro.dental.clinic.service.PatientService;
+import ro.dental.clinic.service.PhotoService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -26,8 +28,24 @@ public class DoctorApi {
 
     private final DoctorService doctorService;
 
+    private final PhotoService photoService;
+
     private final PatientService patientService;
 
+    @PostMapping("/save-image")
+    public ResponseEntity<Void> create(
+            @RequestParam("image") MultipartFile image
+            ){
+
+        photoService.createEty(image);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping("/view-image/{userId}")
+    public ResponseEntity<ImageModel> getImage(@PathVariable String userId) {
+        return ResponseEntity.ok(photoService.getImage(userId));
+    }
     @PostMapping
     public ResponseEntity<Void> createDoctor(
             @Valid @RequestBody DoctorCreationRequest userCreationRequest) {

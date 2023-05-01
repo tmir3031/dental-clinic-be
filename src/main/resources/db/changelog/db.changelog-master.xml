@@ -14,6 +14,9 @@
         <comment>Create sequence for generating surrogate keys for appointment.</comment>
         <createSequence sequenceName="TREATMENT_ID_SQ" startValue="100"/>
 
+        <comment>Create sequence for generating surrogate keys for appointment.</comment>
+        <createSequence sequenceName="PHOTOS_ID_SQ" startValue="1"/>
+
         <comment>Create sequence for generating surrogate keys for team employee</comment>
         <createSequence sequenceName="DOCTOR_SPECIALIZATION_ID_SQ" startValue="1"/>
     </changeSet>
@@ -217,6 +220,25 @@
                 <constraints nullable="false"/>
             </column>
             <column name="DESCRIPTION" remarks="Description of day off" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="V" type="INT" remarks="Technical version of this record">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable remarks="Photos" tableName="PHOTOS">
+            <column name="ID" remarks="Generated surrogate key." type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PHOTOS_ID"/>
+            </column>
+            <column name="PATIENT_ID" remarks="Id of the patient"
+                    type="VARCHAR2(255)">
+                <constraints foreignKeyName="PHOTOS_PATIENT_FK"
+                             nullable="true"
+                             references="PATIENT(USER_ID)"/>
+
+            </column>
+            <column name="PHOTOS" remarks="Photos" type="VARCHAR(200)">
                 <constraints nullable="false"/>
             </column>
             <column name="V" type="INT" remarks="Technical version of this record">
