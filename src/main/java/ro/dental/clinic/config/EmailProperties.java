@@ -10,8 +10,6 @@ import java.util.Properties;
 
 
 @Configuration
-
-
 public class EmailProperties {
 
     @Bean

@@ -57,15 +57,4 @@ public class PatientApi {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    //-------------------------------------------------------------------------------------------------------------------------
-    //Threads
-
-//    @PostMapping("/{employeeId}/requests2")
-//    public ResponseEntity<Void> postAppointment2(
-//            @PathVariable String employeeId,
-//            @Valid @RequestBody AppointmentCreationRequest appointmentCreationRequest) {
-//        patientService.saveAppointment(employeeId, appointmentCreationRequest);
-//        return new ResponseEntity<>(HttpStatus.CREATED);
-//    }
-
 }

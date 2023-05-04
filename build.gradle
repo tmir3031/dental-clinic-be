@@ -39,6 +39,7 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.5.0'
     implementation "org.mapstruct:mapstruct:${mapstruct_version}"
     implementation 'com.querydsl:querydsl-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
 
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstruct_version}"
