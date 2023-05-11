@@ -39,7 +39,11 @@ public class DoctorEty extends SrgKeyEntityTml<String> {
     )
     private List<AppointmentEty> appointmentEtyList = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    //@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     @JoinTable(
             name = "DOCTOR_SPECIALIZATION",
             joinColumns = @JoinColumn(name = "doctor_id"),
@@ -54,6 +58,23 @@ public class DoctorEty extends SrgKeyEntityTml<String> {
     @Override
     protected Class<? extends SrgKeyEntityTml<String>> entityRefClass() {
         return DoctorEty.class;
+    }
+
+    public void addSpecializationEty(SpecializationEty specializationEty) {
+        specializationEtyList.add(specializationEty);
+        specializationEty.getDoctorEtyList().add(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DoctorEty)) return false;
+        return id != null && id.equals(((DoctorEty) o).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 
 }
