@@ -35,6 +35,8 @@ public enum BusinessErrorCode {
     EMPLOYEE_USERNAME_CONFLICT("EDOT0024400", "Employee username is already used"),
     KEYCLOAK_TOKEN_DETAILS_MISSING_USER_ID("EDOT0025404", "User id not found in token details!"),
     APPOINTMENT_ALREADY_APPROVED("EDOT0026400", "The time slot for the chosen doctor is not available"),
+    IMAGE_NOT_SAVED("EDOTI0026400", "Image not save"),
+    IMAGE_NOT_EXIST("EDOTI0026400", "Image not exist"),
     A_FUTURE_APPOINTMENT_CANNOT_BE_CHANGED("EDOT002700", "A future appointment cannot be changed");
 
     private final String errorCode;

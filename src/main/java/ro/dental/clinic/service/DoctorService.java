@@ -10,11 +10,12 @@ import ro.dental.clinic.enums.UserStatus;
 import ro.dental.clinic.exceptions.BusinessException;
 import ro.dental.clinic.mapper.DoctorCreationRequestToUserDetailsMapper;
 import ro.dental.clinic.mapper.DoctorMapper;
-import ro.dental.clinic.model.*;
+import ro.dental.clinic.model.AppointmentReview;
+import ro.dental.clinic.model.DoctorCreationRequest;
+import ro.dental.clinic.model.DoctorDetailList;
+import ro.dental.clinic.model.DoctorDetailListItem;
 import ro.dental.clinic.utils.TimeManager;
 
-import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -32,13 +33,20 @@ public class DoctorService {
     private final TimeManager timeManager;
     private final SecurityAccessTokenProvider securityAccessTokenProvider;
 
-    @Transactional
-    public void createDoctor(DoctorCreationRequest userCreationRequest) {
+    private final SpecializationRepository specializationRepository;
 
-        var doctorEty = DoctorMapper.INSTANCE.mapDoctorCreationRequestToDoctorEty(userCreationRequest);
+   // @Transactional
+    public void createDoctor(DoctorCreationRequest doctorCreationRequest) {
+
+        var doctorEty = DoctorMapper.INSTANCE.mapDoctorCreationRequestToDoctorEty(doctorCreationRequest);
         var mapper = DoctorCreationRequestToUserDetailsMapper.INSTANCE;
-        var userToBeAdded = mapper.toUserDetails(userCreationRequest);
+        var userToBeAdded = mapper.toUserDetails(doctorCreationRequest);
         var addedUser = keycloakClientApi.createUser(userToBeAdded);
+        doctorCreationRequest.getSpecializationIds().forEach(specId -> {
+            specializationRepository.findById(specId).ifPresent(specializationEty -> {
+                doctorEty.addSpecializationEty(specializationEty);
+            });
+        });
         doctorEty.getUser().setUserId(addedUser.getId());
         createInitialSetup(doctorEty);
         doctorRepository.save(doctorEty);

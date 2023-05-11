@@ -25,11 +25,12 @@ public class SpecializationEty extends SrgKeyEntityTml<Long> {
     @Column(name = "V")
     private Long v;
 
-    @ManyToMany
-    @JoinTable(
-            name = "DOCTOR_SPECIALIZATION",
-            joinColumns = @JoinColumn(name = "specialization_id"),
-            inverseJoinColumns = @JoinColumn(name = "doctor_id"))
+//    @ManyToMany
+//    @JoinTable(
+//            name = "DOCTOR_SPECIALIZATION",
+//            joinColumns = @JoinColumn(name = "specialization_id"),
+//            inverseJoinColumns = @JoinColumn(name = "doctor_id"))
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "specializationEtyList")
     private List<DoctorEty> doctorEtyList = new ArrayList<>();
 
 

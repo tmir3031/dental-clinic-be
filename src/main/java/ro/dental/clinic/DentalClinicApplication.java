@@ -10,4 +10,12 @@ public class DentalClinicApplication {
 		SpringApplication.run(DentalClinicApplication.class, args);
 	}
 
+//	@Autowired
+//	private ScheduleJob scheduleJob;
+//
+//	@PostConstruct
+//	public void scheduleEmailJob() {
+//		scheduleJob.sendAppointmentReminders();
+//	}
+
 }

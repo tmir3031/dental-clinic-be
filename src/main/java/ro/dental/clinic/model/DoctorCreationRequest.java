@@ -1,7 +1,6 @@
 package ro.dental.clinic.model;
 
 import lombok.Data;
-import ro.dental.clinic.domain.SpecializationEty;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ public class DoctorCreationRequest {
     private String role;
     private String description;
     private String gender;
-    private List<SpecializationEty> specializationEtyList;
+    private List<Long> specializationIds;
 
 }
 

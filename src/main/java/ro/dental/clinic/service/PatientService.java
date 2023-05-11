@@ -29,7 +29,6 @@ public class PatientService {
     private final PatientHandler patientHandler;
     private final TimeManager timeManager;
     private final AppointmentRepository appointmentRepository;
-
     private final KeycloakClientApi keycloakClientApi;
     private final SecurityAccessTokenProvider securityAccessTokenProvider;
 
@@ -65,12 +64,6 @@ public class PatientService {
         if (isNull(patientUpdateRequest.getV())) {
             throw new BusinessException(List.of(BusinessException.BusinessExceptionElement.builder().errorCode(BusinessErrorCode.INVALID_PAYLOAD).build()));
         }
-
-//        if (patientUpdateRequest.getV() < patientEty.getV()) {
-//            throw new BusinessException(List.of(BusinessException.BusinessExceptionElement.builder()
-//                    .errorCode(BusinessErrorCode.EMPLOYEE_CONFLICT)
-//                    .build()));
-//        }
 
         setMdfUsrAndTms(patientEty);
         updatePatient(patientEty, patientUpdateRequest);

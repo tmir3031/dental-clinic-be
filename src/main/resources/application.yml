@@ -40,6 +40,8 @@ spring:
     serialization:
       write-dates-as-timestamps: false
 ro.dental.clinic:
+  sync:
+    cron: 0 0/2 * * * ?
   caches:
     specs:
       - name: CONFIG_CACHE

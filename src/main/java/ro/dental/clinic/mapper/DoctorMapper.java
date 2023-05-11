@@ -15,7 +15,8 @@ import ro.dental.clinic.model.PatientCreationRequest;
  * Mapper used for converting EmployeeEty object to EmployeeDto object
  */
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR, componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, uses = SpecializationMapper.class)
+//@Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR, componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR, uses = SpecializationMapper.class)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR, uses = SpecializationMapper.class)
 public interface DoctorMapper {
 
     DoctorMapper INSTANCE = Mappers.getMapper(DoctorMapper.class);
