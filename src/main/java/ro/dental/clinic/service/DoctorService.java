@@ -26,7 +26,7 @@ import static java.util.Objects.isNull;
 public class DoctorService {
     private final AppointmentRightsManager appointmentRightsManager;
     private final AppointmentRepository appointmentRepository;
-
+    private final SpecializationDoctorRepository specializationDoctorRepository;
     private final DoctorRepository doctorRepository;
     private final DoctorHandler doctorHandler;
     private final KeycloakClientApi keycloakClientApi;
@@ -35,21 +35,27 @@ public class DoctorService {
 
     private final SpecializationRepository specializationRepository;
 
-   // @Transactional
+    @Transactional
     public void createDoctor(DoctorCreationRequest doctorCreationRequest) {
 
+        doctorCreationRequest.setPassword(doctorCreationRequest.getFirstName());
         var doctorEty = DoctorMapper.INSTANCE.mapDoctorCreationRequestToDoctorEty(doctorCreationRequest);
         var mapper = DoctorCreationRequestToUserDetailsMapper.INSTANCE;
         var userToBeAdded = mapper.toUserDetails(doctorCreationRequest);
         var addedUser = keycloakClientApi.createUser(userToBeAdded);
-        doctorCreationRequest.getSpecializationIds().forEach(specId -> {
-            specializationRepository.findById(specId).ifPresent(specializationEty -> {
-                doctorEty.addSpecializationEty(specializationEty);
-            });
-        });
+        doctorEty.setSpecializationEtyList(null);
         doctorEty.getUser().setUserId(addedUser.getId());
         createInitialSetup(doctorEty);
         doctorRepository.save(doctorEty);
+        doctorCreationRequest.getSpecializationIds().forEach(specId -> {
+            specializationRepository.findById(specId).ifPresent(specializationEty -> {
+                SpecializationDoctorEty specializationDoctorEty = new SpecializationDoctorEty();
+                specializationDoctorEty.setSpecialization(specializationEty);
+                specializationDoctorEty.setDoctor(doctorEty);
+                specializationDoctorEty.setV(0L);
+                specializationDoctorRepository.save(specializationDoctorEty);
+            });
+        });
     }
 
     @Transactional
@@ -68,7 +74,7 @@ public class DoctorService {
         var appointment = appointmentRepository.findAll().stream().filter(appointmentEty -> appointmentEty.getId().equals(requestId)).findFirst().orElseThrow(() -> new BusinessException(List.of(BusinessException.BusinessExceptionElement.builder()
                 .errorCode(BusinessErrorCode.APPOINTMENT_NOT_FOUND)
                 .build())));
-        ;
+
         appointmentRightsManager.checkDelete(appointment);
         appointmentRepository.deleteById(requestId);
     }

@@ -25,6 +25,11 @@ public class PatientApi {
         return ResponseEntity.ok(patientService.getPatientById(patientId));
     }
 
+    @GetMapping("/treatments/{patientId}")
+    public ResponseEntity<TreatmentAppointmentDetailsList> getTreatemntsForAPatient(@PathVariable String patientId) {
+        return ResponseEntity.ok(patientService.getTreatemntsForAPatient(patientId));
+    }
+
 
     @PostMapping
     public ResponseEntity<Void> createPatient(

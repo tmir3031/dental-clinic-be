@@ -6,9 +6,14 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 import java.util.Optional;
 
-public interface SpecializationDoctorRepository extends
-        JpaRepository<SpecializationDoctorEty, Long>,
-        QuerydslPredicateExecutor<SpecializationDoctorEty> {
 
-    Optional<SpecializationDoctorEty> findByDoctor(DoctorEty doctor);
+public interface SpecializationDoctorRepository extends
+        JpaRepository<SpecializationDoctorEty, Long>
+         {
 }
+
+
+//public interface SpecializationDoctorRepository extends
+//        JpaRepository<SpecializationDoctorEty, Long>,
+//        QuerydslPredicateExecutor<SpecializationDoctorEty> {
+//}

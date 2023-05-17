@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface AppointmentRepository extends JpaRepository<AppointmentEty, Long> {
     List<AppointmentEty> findAllByDate(LocalDate tomorrow);
+
+    List<AppointmentEty> findAllByPatient(PatientEty patientEty);
 }

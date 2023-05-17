@@ -7,12 +7,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import ro.dental.clinic.domain.AppointmentEty;
 import ro.dental.clinic.domain.AppointmentRepository;
 import ro.dental.clinic.email.SenderEmailService;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Component
 @Slf4j

@@ -7,21 +7,26 @@ import javax.persistence.*;
 
 
 @Entity
-@SequenceGenerator(name = "DOCTOR_SPECIALIZATION_ID_SQ", sequenceName = "DOCTOR_SPECIALIZATION_ID_SQ", allocationSize = 1)
+@Table(name = "DOCTOR_SPECIALIZATION", schema="public")
 @Getter
 @Setter
-@Table(name = "DOCTOR_SPECIALIZATION")
+@SequenceGenerator(name = "DOCTOR_SPECIALIZATION_ID_SQ", sequenceName = "DOCTOR_SPECIALIZATION_ID_SQ", allocationSize = 1)
+
 public class SpecializationDoctorEty extends SrgKeyEntityTml<Long>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DOCTOR_SPECIALIZATION_ID_SQ")
     private Long id;
+
     @ManyToOne()
     @JoinColumn(name = "DOCTOR_ID")
     private DoctorEty doctor;
     @ManyToOne()
     @JoinColumn(name = "SPECIALIZATION_ID")
     private SpecializationEty specialization;
+    @Column(name = "V")
+    private Long v;
+
 
     @Override
     protected Class<? extends SrgKeyEntityTml<Long>> entityRefClass() {

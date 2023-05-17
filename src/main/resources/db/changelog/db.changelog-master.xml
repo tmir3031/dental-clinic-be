@@ -18,7 +18,7 @@
         <createSequence sequenceName="PHOTOS_ID_SQ" startValue="1"/>
 
         <comment>Create sequence for generating surrogate keys for team employee</comment>
-        <createSequence sequenceName="DOCTOR_SPECIALIZATION_ID_SQ" startValue="1"/>
+        <createSequence sequenceName="DOCTOR_SPECIALIZATION_ID_SQ" startValue="10"/>
     </changeSet>
 
     <changeSet author="raluca.timonea" id="001">
@@ -141,7 +141,7 @@
 
         <createTable tableName="DOCTOR_SPECIALIZATION" remarks="Relationship between doctor and specialization details.">
             <column name="ID" type="BIGINT" remarks="Generated surrogate key.">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="SPECIALIZATION_USER_PK"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="DOCTOR_SPECIALIZATION_ID"/>
             </column>
             <column name="DOCTOR_ID" type="VARCHAR(255)" remarks="Id of user">
                 <constraints nullable="false"
@@ -153,7 +153,11 @@
                              foreignKeyName="SPECIALIZATION_USER_SPECIALIZATION_FK"
                              references="SPECIALIZATION(ID)"/>
             </column>
+            <column name="V" type="INT" remarks="Technical version of this record">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
+
 
         <createTable remarks="Legally days off details." tableName="LEGALLY_DAYS_OFF">
             <column name="DATE" remarks="Date of day off." type="DATE">
@@ -239,6 +243,10 @@
 
             </column>
             <column name="PHOTOS" remarks="Photos" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DATE" type="DATETIME"
+                    remarks="Timestamp of the image's creation">
                 <constraints nullable="false"/>
             </column>
             <column name="V" type="INT" remarks="Technical version of this record">

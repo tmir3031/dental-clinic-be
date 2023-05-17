@@ -14,6 +14,7 @@ import ro.dental.clinic.mapper.PatientMapper;
 import ro.dental.clinic.model.*;
 import ro.dental.clinic.utils.TimeManager;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -128,7 +129,6 @@ public class PatientService {
     }
 
     @Transactional
-
     public PatientCreationRequest getPatientById(String patientId) {
         return (patientHandler.handlePatientDetails(patientId));
     }
@@ -146,83 +146,66 @@ public class PatientService {
         return patients;
     }
 
-    public List<PatientEty> getAllPatientForADoctor(String doctorId) {
-        List<AppointmentEty> appointments = appointmentRepository.findAll().stream().filter(a -> a.getDoctor().getId().equals(doctorId)).collect(Collectors.toList());
-        List<PatientEty> patients = new ArrayList<>();
-        appointments.forEach(appointmentEty -> patients.add(appointmentEty.getPatient()));
-        return patients;
+//    @Transactional
+//    public TreatmentAppointmentDetailsList getTreatemntsForAPatient(String patientId) {
+//        Optional<PatientEty> patientOpt = patientRepository.findById(patientId);
+//        if (patientOpt.isEmpty()) {
+//            throw new RuntimeException("Pacientul cu id-ul " + patientId + " nu exista.");
+//        }
+//        var patient = patientOpt.get();
+//        var patientDetails = new EmployeeDetailsListItem();
+//        patientDetails.setUserId(patientId);
+//        patientDetails.setFirstName(patient.getUser().getFirstName());
+//        patientDetails.setLastName(patient.getUser().getLastName());
+//
+//        var treatmentAppointmentDetailsList = new TreatmentAppointmentDetailsList();
+//var appointmentsList = appointmentRepository.findAllByPatient(patient).stream().map(
+//        app -> {
+//            TreatmentAppointmentDetailsListItem treatmentAppointmentDetailsListItem = new TreatmentAppointmentDetailsListItem();
+//            treatmentAppointmentDetailsListItem.setTreatment(app.getTreatment());
+//            treatmentAppointmentDetailsListItem.setDate(app.getDate());
+//            var doctorDetails= new EmployeeDetailsListItem();
+//            doctorDetails.setFirstName(app.getDoctor().getUser().getFirstName());
+//            doctorDetails.setLastName(app.getDoctor().getUser().getLastName());
+//            doctorDetails.setUserId(app.getDoctor().getUser().getUserId());
+//            treatmentAppointmentDetailsListItem.setDoctorDetails(doctorDetails);
+//            treatmentAppointmentDetailsListItem.setPatientDetails(patientDetails);
+//        }
+//);
+//
+//        return null;
+//    }
 
-//        var appointments = appointmentRepository.findAll().stream().filter(a -> a.getDoctor().getId().equals(doctorId)).collect(Collectors.toList());
-//        List <PatientEty> patientEtyList = new ArrayList<>();
-//        appointments.forEach(appointmentEty -> patientEtyList.add(appointmentEty.getPatient()));
-//        return patientEtyList;
-//        return appointments
-//                .stream()
-//                .map(a -> {
-//                    System.out.println(a + a.getPatient().getId()  + " aiiciiii   ");
-//                    PatientEty patient = patientRepository.findById(a.getPatient().getId()).get();
-//                    return patient;
-//                })
-//                .distinct()
-//                .collect(Collectors.toList());
+    @Transactional
+    public TreatmentAppointmentDetailsList getTreatemntsForAPatient(String patientId) {
+        Optional<PatientEty> patientOpt = patientRepository.findById(patientId);
+        if (patientOpt.isEmpty()) {
+            throw new RuntimeException("Pacientul cu id-ul " + patientId + " nu exista.");
+        }
+        var patient = patientOpt.get();
+
+        var treatmentAppointmentDetailsList = new TreatmentAppointmentDetailsList();
+        List<TreatmentAppointmentDetailsListItem> appointmentsList = appointmentRepository.findAllByPatient(patient)
+                .stream()
+                .filter(appointmentEty -> appointmentEty.getDate().isBefore(LocalDate.now()))
+                .map(app -> {
+
+                    TreatmentAppointmentDetailsListItem treatmentAppointmentDetailsListItem = new TreatmentAppointmentDetailsListItem();
+                    treatmentAppointmentDetailsListItem.setTreatment(app.getTreatment());
+                    treatmentAppointmentDetailsListItem.setDate(app.getDate());
+                    var doctorDetails = new EmployeeDetailsListItem();
+                    doctorDetails.setFirstName(app.getDoctor().getUser().getFirstName());
+                    doctorDetails.setLastName(app.getDoctor().getUser().getLastName());
+                    doctorDetails.setUserId(app.getDoctor().getUser().getUserId());
+                    treatmentAppointmentDetailsListItem.setDoctorDetails(doctorDetails);
+                    return treatmentAppointmentDetailsListItem;
+
+                })
+                .sorted(Comparator.comparing(TreatmentAppointmentDetailsListItem::getDate).reversed())
+                .collect(Collectors.toList());
+
+        treatmentAppointmentDetailsList.setItems(appointmentsList);
+        return treatmentAppointmentDetailsList;
     }
 
-    // ------------------------------------------------------------------------------------------------------------------
-    // Threads
-//
-//    @Async
-//    public CompletableFuture<List<AppointmentEty>> saveAppointment(String employeeId, AppointmentCreationRequest creationRequest) {
-//        var employee = patientRepository.findById(employeeId)
-//                .orElseThrow(() -> new BusinessException(List.of(BusinessException.BusinessExceptionElement.builder()
-//                        .errorCode(BusinessErrorCode.EMPLOYEE_NOT_FOUND)
-//                        .build())));
-//        var doctor = doctorRepository.findById(creationRequest.getDoctorId())
-//                .orElseThrow(() -> new BusinessException(List.of(BusinessException.BusinessExceptionElement.builder()
-//                        .errorCode(BusinessErrorCode.EMPLOYEE_NOT_FOUND)
-//                        .build())));
-//        //List<AppointmentEty> appointments = appointmentRepository.findByDateAndHourAndEmployee(creationRequest.getDate(), creationRequest.getHour(), doctor);
-//        List<AppointmentEty> appointmentEties = appointmentRepository.findAll();
-//        List<AppointmentEty> appointments = new ArrayList<>();
-//        for (AppointmentEty app: appointmentEties){
-//            //app.getEmployee().getEmployeeId().equals(doctor.getEmployeeId()) &&
-//            if( app.getDate().equals(creationRequest.getDate()) && app.getHour().equals(creationRequest.getHour())){
-//                appointments.add(app);
-//            }
-//        }
-
-//        List<AppointmentEty> appointments = appointmentRepository.findAll()
-//                .stream()
-//                .filter(a -> a.getEmployee().getId().equals(doctor.getEmployeeId()))
-//                .filter(a -> a.getDate().equals(creationRequest.getDate()))
-//                .filter(a -> a.getHour().equals(creationRequest.getHour()))
-//                .collect(Collectors.toList());
-
-//        if (!appointments.isEmpty()) {
-//            // Dacă există deja programare, verificăm dacă este deja aprobată și aruncăm o excepție dacă este
-//            throw new BusinessException(List.of(BusinessException.BusinessExceptionElement.builder()
-//                    .errorCode(BusinessErrorCode.APPOINTMENT_ALREADY_APPROVED)
-//                    .build()));
-//
-//        } else {
-//            var newAppointment = new AppointmentEty();
-//            newAppointment.setHour(creationRequest.getHour());
-//            newAppointment.setDescription(creationRequest.getDescription());
-//            newAppointment.setDate(creationRequest.getDate());
-//            newAppointment.setDoctor(doctor);
-//            appointmentRightsManager.checkCreate(newAppointment);
-//
-//            var instant = timeManager.instant();
-//            newAppointment.setCrtTms(instant);
-//            newAppointment.setMdfTms(instant);
-//            newAppointment.setMdfUsr(employee.getId());
-//            newAppointment.setStatus(AppointmentStatus.APPROVED);
-//            newAppointment.setPatient(employee);
-//            appointmentRepository.save(newAppointment);
-//            // employee.addAppointment(newAppointment);
-//            // employeeRepository.save(employee);
-//            // List<AppointmentEty> savedAppointments = appointmentRepository.saveAll(Collections.singletonList(newAppointment));
-//            // return CompletableFuture.completedFuture(savedAppointments);
-//            return null;
-//        }
-//    }
 }

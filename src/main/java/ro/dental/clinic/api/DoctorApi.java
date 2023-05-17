@@ -8,6 +8,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ro.dental.clinic.domain.AppointmentEty;
+import ro.dental.clinic.email.SenderEmailService;
 import ro.dental.clinic.model.*;
 import ro.dental.clinic.service.DoctorService;
 import ro.dental.clinic.service.PatientService;
@@ -27,6 +28,7 @@ public class DoctorApi {
 
     private final DoctorService doctorService;
 
+    private final SenderEmailService senderEmailService;
     private final PhotoService photoService;
 
     private final PatientService patientService;
@@ -45,17 +47,16 @@ public class DoctorApi {
     }
 
     @GetMapping("/view-all-image/{userId}")
-    public ResponseEntity<ArrayList<ImageModel>> getImages(@PathVariable String userId) {
+    public ResponseEntity<List<ImageModel>> getImages(@PathVariable String userId) {
         return ResponseEntity.ok(photoService.getImages(userId));
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<Void> createDoctor(
             @Valid @RequestBody DoctorCreationRequest userCreationRequest) {
         doctorService.createDoctor(userCreationRequest);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
     @GetMapping("/{doctorId}")
     public ResponseEntity<DoctorDetailListItem> getDoctorById(@PathVariable String doctorId) {
         return ResponseEntity.ok(doctorService.getDoctorById(doctorId));
@@ -83,9 +84,10 @@ public class DoctorApi {
     }
 
     // TODO trebuie sa trimita o notificare pentru userul caruia i-a anulat programarea
-    @DeleteMapping("/requests/{requestId}")
-    public ResponseEntity<Void> deleteAppointment(@PathVariable Long requestId) {
-        doctorService.deleteAppointment(requestId);
+    @DeleteMapping("/appointments/{appointmentId}")
+    public ResponseEntity<Void> deleteAppointment(@PathVariable Long appointmentId) {
+        doctorService.deleteAppointment(appointmentId);
+        senderEmailService.sendEmail("timonea_raluca@yahoo.com", "Aici e un text pentru stergerea unei cereri", "aici e subiectul emailului");
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

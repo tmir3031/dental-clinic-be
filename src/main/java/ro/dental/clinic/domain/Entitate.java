@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 @Entity
 @Table(name = "PHOTOS", schema = "public")
@@ -22,6 +23,9 @@ public class Entitate extends SrgKeyEntityTml<Long> {
 
         @Column(name = "PHOTOS")
         private String imageURL;
+
+        @Column(name = "DATE")
+        private Instant date;
 
         @Column(name = "V")
         private Long v;
