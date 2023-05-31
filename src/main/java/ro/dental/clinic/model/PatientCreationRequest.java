@@ -1,6 +1,5 @@
 package ro.dental.clinic.model;
 
-import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;

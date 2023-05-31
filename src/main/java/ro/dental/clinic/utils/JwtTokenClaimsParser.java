@@ -11,18 +11,18 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class JwtTokenClaimsParser {
 
-  private final JwtDecoder jwtDecoder;
+    private final JwtDecoder jwtDecoder;
 
-  public Map<String, Object> getJwtTokenClaims(String token) {
-    return jwtDecoder.decode(token).getClaims();
-  }
+    public Map<String, Object> getJwtTokenClaims(String token) {
+        return jwtDecoder.decode(token).getClaims();
+    }
 
-  public String getUserRole(Map<String, Object> claims) {
-    var realmAccess = (Map<String, Object>) claims.get("realm_access");
-    var roles = (Collection<String>) realmAccess.get("roles");
-    return roles.stream().filter(role -> role.startsWith("ROLE_"))
-            .findFirst().orElseThrow(() -> new IllegalStateException(
-                    String.format("Expected exists a role for the employee %s",
-                            claims.get("sub").toString())));
-  }
+    public String getUserRole(Map<String, Object> claims) {
+        var realmAccess = (Map<String, Object>) claims.get("realm_access");
+        var roles = (Collection<String>) realmAccess.get("roles");
+        return roles.stream().filter(role -> role.startsWith("ROLE_"))
+                .findFirst().orElseThrow(() -> new IllegalStateException(
+                        String.format("Expected exists a role for the employee %s",
+                                claims.get("sub").toString())));
+    }
 }

@@ -25,20 +25,19 @@ public class SendEmailRemainderScheduleTask {
 
     @Async
     @Transactional
-    //@Scheduled(cron = "0 0 18 * * *", zone = "Europe/Bucharest") // rulează la 17 zilnic
     @Scheduled(cron = "${ro.dental.clinic.sync.cron}")
     public void sendAppointmentReminders() {
         log.info("Start finding tomorrow appointments in order to send reminder email");
         appointmentRepository.findAllByDate(LocalDate.now().plusDays(1)).forEach(appointment -> {
             String email = "timonea_raluca@yahoo.com"; // appointment.getPatient().getUser().getEmail();
             String subject = "Reminder: Appointment Tomorrow";
-            String body = "Dear " + appointment.getPatient().getUser().getLastName()+ ",\n\n" +
+            String body = "Dear " + appointment.getPatient().getUser().getLastName() + ",\n\n" +
                     "This is a friendly reminder that you have an appointment tomorrow at " +
                     appointment.getHour() + ".\n\n" +
                     "Please arrive on time and bring any necessary documents or materials.\n\n" +
                     "Thank you,\n" +
                     "Your Healthcare Team";
-            senderEmailService.sendEmail(email,subject,body);
+            senderEmailService.sendEmail(email, subject, body);
         });
     }
 }

@@ -12,6 +12,7 @@ import ro.dental.clinic.domain.SpecializationRepository;
 import ro.dental.clinic.mapper.AppointmentMapper;
 import ro.dental.clinic.model.AppointmentDetailsList;
 import ro.dental.clinic.model.AppointmentDetailsListItem;
+import ro.dental.clinic.model.DoctorDetailList;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
@@ -27,9 +28,8 @@ import java.util.stream.Collectors;
 public class AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
-    private final SpecializationRepository specializationRepository;
-
     private final SecurityAccessTokenProvider securityAccessTokenProvider;
+    private final SpecializationRepository specializationRepository;
 
     private static final BiPredicate<AppointmentEty, AppointmentFilter> filter = (appointment, filters) ->
             (filters.getDate() == null || !appointment.getDate()
@@ -64,6 +64,12 @@ public class AppointmentService {
     }
 
     @Transactional
+    public AppointmentEty getAppointmentById(Long appointmentId) {
+        return appointmentRepository.findAll().stream().filter(appointmentEty -> appointmentEty.getId().equals(appointmentId)).findFirst().orElse(null);
+    }
+
+
+    @Transactional
     public AppointmentDetailsList getAppointmentsDetails(LocalDate date, String search) {
         var appointmentDetailsList = new AppointmentDetailsList();
         var appointmentStream = appointmentRepository.findAll().stream();
@@ -94,7 +100,6 @@ public class AppointmentService {
 
     @Transactional
     public List<String> getFreeTimeSlotForADay(LocalDate date, String doctorId, Long specializationId) {
-        // Lista cu orele fixe
         List<String> fixedHours = Arrays.asList("08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00");
 
         if (doctorId == null && specializationId == null)
@@ -104,7 +109,6 @@ public class AppointmentService {
             var appointments = appointmentRepository.findAll().stream().filter(appointmentEty -> appointmentEty.getDate().equals(date) && appointmentEty.getDoctor().getId().equals(doctorId)).collect(Collectors.toList());
             List<String> freeTimeSlot = new ArrayList<>();
 
-            // Verificam daca exista programari la fiecare ora fixa
             for (String hour : fixedHours) {
                 boolean hasAppointment = false;
                 for (AppointmentEty appointment : appointments) {
@@ -123,7 +127,7 @@ public class AppointmentService {
             var doctors = specializationRepository.findById(specializationId).get().getDoctorEtyList();
             for (DoctorEty doctor : doctors) {
                 var appointments = appointmentRepository.findAll().stream().filter(appointmentEty -> appointmentEty.getDate().equals(date) && appointmentEty.getDoctor().getId().equals(doctor.getId())).collect(Collectors.toList());
-                // Verificam daca exista programari la fiecare ora fixa
+
                 for (String hour : fixedHours) {
                     boolean hasAppointment = false;
                     for (AppointmentEty appointment : appointments) {

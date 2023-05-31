@@ -5,13 +5,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-
 import java.util.Properties;
-
 
 @Configuration
 public class EmailProperties {
-
     @Bean
     public JavaMailSender javaMailSender() throws EmailException {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
@@ -26,9 +23,5 @@ public class EmailProperties {
         props.put("mail.debug", "true");
         props.put("mail.smtp.ssl.trust", "*");
         return mailSender;
-
-
     }
-
-
 }

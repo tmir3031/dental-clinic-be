@@ -21,7 +21,7 @@ public class AppointmentApi {
     private final AppointmentService appointmentService;
 
     @GetMapping
-    public ResponseEntity<AppointmentDetailsList> getLeaveRequestDetailsList(
+    public ResponseEntity<AppointmentDetailsList> getAppointmentsDetailsList(
             @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
             @RequestParam(value = "search", required = false) String search) {
         return ResponseEntity.ok(

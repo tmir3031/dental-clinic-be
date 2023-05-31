@@ -1,12 +1,12 @@
 package ro.dental.clinic.service;
 
 import lombok.RequiredArgsConstructor;
-import ro.dental.clinic.model.UserDetails;
 import org.springframework.stereotype.Service;
 import ro.dental.clinic.config.KeycloakProperties;
 import ro.dental.clinic.mapper.UserDtoToKeycloakUserRepresentationMapper;
 import ro.dental.clinic.model.KeycloakUserCredentials;
 import ro.dental.clinic.model.KeycloakUserRepresentation;
+import ro.dental.clinic.model.UserDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,8 @@ public class KeycloakUserRepresentationProvider {
         List<KeycloakUserCredentials> listOfCredentialsOfUser = new ArrayList<>();
         listOfCredentialsOfUser.add(keycloakCredentials);
 
-        var userDtoToKeycloakUserMapper = UserDtoToKeycloakUserRepresentationMapper.INSTANCE;;
+        var userDtoToKeycloakUserMapper = UserDtoToKeycloakUserRepresentationMapper.INSTANCE;
+        ;
         var keycloakUser = userDtoToKeycloakUserMapper.toKeycloakUserRepresentation(userDetails);
 
         keycloakUser.setCredentials(listOfCredentialsOfUser);

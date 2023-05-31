@@ -15,7 +15,9 @@ import ro.dental.clinic.model.*;
 import ro.dental.clinic.utils.TimeManager;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
@@ -48,7 +50,6 @@ public class PatientService {
     }
 
     private void createInitialSetup(PatientEty patientEty) {
-        // var creationUser = securityAccessTokenProvider.getUserIdFromAuthToken();
         var instant = timeManager.instant();
         patientEty.getUser().setCrtTms(instant);
         patientEty.getUser().setMdfUsr(patientEty.getId());
@@ -60,7 +61,6 @@ public class PatientService {
     public void updatePatient(String patientId, PatientUpdateRequest patientUpdateRequest) {
 
         var patientEty = patientRepository.findAll().stream().filter(patient -> patient.getId().equals(patientId)).findFirst().orElseThrow(() -> new BusinessException(List.of(BusinessException.BusinessExceptionElement.builder().errorCode(BusinessErrorCode.USER_NOT_FOUND).build())));
-        ;
 
         if (isNull(patientUpdateRequest.getV())) {
             throw new BusinessException(List.of(BusinessException.BusinessExceptionElement.builder().errorCode(BusinessErrorCode.INVALID_PAYLOAD).build()));
@@ -104,14 +104,11 @@ public class PatientService {
         List<AppointmentEty> appointments = appointmentRepository.findAll().stream().filter(a -> a.getDoctor().getId().equals(doctor.getId())).filter(a -> a.getDate().equals(creationRequest.getDate())).filter(a -> a.getHour().equals(creationRequest.getHour())).collect(Collectors.toList());
 
         if (!appointments.isEmpty()) {
-            // Dacă există deja programare, verificăm dacă este deja aprobată și aruncăm o excepție dacă este
             for (AppointmentEty appointment : appointments) {
                 if (appointment.getStatus() == AppointmentStatus.APPROVED) {
                     throw new BusinessException(List.of(BusinessException.BusinessExceptionElement.builder().errorCode(BusinessErrorCode.APPOINTMENT_ALREADY_APPROVED).build()));
                 }
             }
-            // Dacă programarea există dar nu este aprobată, o ștergem și o recreăm
-            appointmentRepository.deleteAll(appointments);
         }
 
         var newAppointment = AppointmentMapper.INSTANCE.mapAppointmentCreationRequestToAppointmentEty(creationRequest);
@@ -145,36 +142,6 @@ public class PatientService {
         patients.setItems(patientDTOs);
         return patients;
     }
-
-//    @Transactional
-//    public TreatmentAppointmentDetailsList getTreatemntsForAPatient(String patientId) {
-//        Optional<PatientEty> patientOpt = patientRepository.findById(patientId);
-//        if (patientOpt.isEmpty()) {
-//            throw new RuntimeException("Pacientul cu id-ul " + patientId + " nu exista.");
-//        }
-//        var patient = patientOpt.get();
-//        var patientDetails = new EmployeeDetailsListItem();
-//        patientDetails.setUserId(patientId);
-//        patientDetails.setFirstName(patient.getUser().getFirstName());
-//        patientDetails.setLastName(patient.getUser().getLastName());
-//
-//        var treatmentAppointmentDetailsList = new TreatmentAppointmentDetailsList();
-//var appointmentsList = appointmentRepository.findAllByPatient(patient).stream().map(
-//        app -> {
-//            TreatmentAppointmentDetailsListItem treatmentAppointmentDetailsListItem = new TreatmentAppointmentDetailsListItem();
-//            treatmentAppointmentDetailsListItem.setTreatment(app.getTreatment());
-//            treatmentAppointmentDetailsListItem.setDate(app.getDate());
-//            var doctorDetails= new EmployeeDetailsListItem();
-//            doctorDetails.setFirstName(app.getDoctor().getUser().getFirstName());
-//            doctorDetails.setLastName(app.getDoctor().getUser().getLastName());
-//            doctorDetails.setUserId(app.getDoctor().getUser().getUserId());
-//            treatmentAppointmentDetailsListItem.setDoctorDetails(doctorDetails);
-//            treatmentAppointmentDetailsListItem.setPatientDetails(patientDetails);
-//        }
-//);
-//
-//        return null;
-//    }
 
     @Transactional
     public TreatmentAppointmentDetailsList getTreatemntsForAPatient(String patientId) {

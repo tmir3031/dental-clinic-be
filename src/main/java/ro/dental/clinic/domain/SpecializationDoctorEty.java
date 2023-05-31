@@ -7,12 +7,12 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "DOCTOR_SPECIALIZATION", schema="public")
+@Table(name = "DOCTOR_SPECIALIZATION", schema = "public")
 @Getter
 @Setter
 @SequenceGenerator(name = "DOCTOR_SPECIALIZATION_ID_SQ", sequenceName = "DOCTOR_SPECIALIZATION_ID_SQ", allocationSize = 1)
 
-public class SpecializationDoctorEty extends SrgKeyEntityTml<Long>{
+public class SpecializationDoctorEty extends SrgKeyEntityTml<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "DOCTOR_SPECIALIZATION_ID_SQ")

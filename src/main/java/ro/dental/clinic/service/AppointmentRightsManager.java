@@ -10,10 +10,8 @@ import ro.dental.clinic.utils.TimeManager;
 
 import java.time.Clock;
 import java.util.List;
-import java.util.Optional;
 
 import static ro.dental.clinic.enums.AppointmentStatus.APPROVED;
-import static ro.dental.clinic.enums.AppointmentStatus.REJECTED;
 
 @Component
 @RequiredArgsConstructor
@@ -26,12 +24,6 @@ public class AppointmentRightsManager {
     }
 
     public void checkDelete(AppointmentEty appointmentEty) {
-        if (appointmentEty.getStatus() == REJECTED) {
-            throw new BusinessException(List.of(BusinessExceptionElement.builder()
-                    .errorCode(BusinessErrorCode.APPOINTMENT_DELETE_NOT_PERMITTED_REJECTED_APPOINTMENT)
-                    .build()));
-        }
-
         if ((appointmentEty.getStatus() == APPROVED)
                 && appointmentEty.getDate().getMonth().getValue()
                 < timeManager.localDate().getMonth().getValue()) {
