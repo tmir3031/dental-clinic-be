@@ -12,7 +12,8 @@ import ro.dental.clinic.domain.SpecializationRepository;
 import ro.dental.clinic.mapper.AppointmentMapper;
 import ro.dental.clinic.model.AppointmentDetailsList;
 import ro.dental.clinic.model.AppointmentDetailsListItem;
-import ro.dental.clinic.model.DoctorDetailList;
+import ro.dental.clinic.model.AppointmentList;
+import ro.dental.clinic.model.AppointmentListItem;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
@@ -31,7 +32,7 @@ public class AppointmentService {
     private final SecurityAccessTokenProvider securityAccessTokenProvider;
     private final SpecializationRepository specializationRepository;
 
-    private static final BiPredicate<AppointmentEty, AppointmentFilter> filter = (appointment, filters) ->
+    private static final BiPredicate<AppointmentEty, AppointmentDetailsFilter> filterDetails = (appointment, filters) ->
             (filters.getDate() == null || !appointment.getDate()
                     .isBefore(filters.getDate()))
                     &&
@@ -51,10 +52,26 @@ public class AppointmentService {
                             appointment.getDoctor().getUser().getUserId().contains(filters.getUserId())
                     ) || appointment.getPatient().getUser().getUserId().contains(filters.getUserId()));
 
+    private static final BiPredicate<AppointmentEty, AppointmentFilter> filter = (appointmentEty, filters) ->
+            (filters.getSearch() == null || (
+                    appointmentEty.getDoctor().getUser().getFirstName().toUpperCase()
+                            .contains(filters.getSearch().toUpperCase())
+                            || appointmentEty.getDoctor().getUser().getLastName().toUpperCase()
+                            .contains(filters.getSearch().toUpperCase())
+                            || appointmentEty.getPatient().getUser().getLastName().toUpperCase()
+                            .contains(filters.getSearch().toUpperCase())
+                            || appointmentEty.getPatient().getUser().getFirstName().toUpperCase()
+                            .contains(filters.getSearch().toUpperCase())
+            )) &&
+                    (filters.getStartDate() == null || !appointmentEty.getDate()
+                            .isBefore(filters.getStartDate())) &&
+                    (filters.getEndDate() == null || !appointmentEty.getDate()
+                            .isAfter(filters.getEndDate()));
+
     @AllArgsConstructor
     @Getter
     @Setter
-    private static class AppointmentFilter {
+    private static class AppointmentDetailsFilter {
 
         private LocalDate date;
         private String searchDoctor;
@@ -63,11 +80,42 @@ public class AppointmentService {
 
     }
 
+    @AllArgsConstructor
+    @Getter
+    @Setter
+    private static class AppointmentFilter {
+        private LocalDate startDate;
+        private LocalDate endDate;
+        private String search;
+    }
+
     @Transactional
     public AppointmentEty getAppointmentById(Long appointmentId) {
         return appointmentRepository.findAll().stream().filter(appointmentEty -> appointmentEty.getId().equals(appointmentId)).findFirst().orElse(null);
     }
 
+    @Transactional
+    public AppointmentList getAllAppointments(LocalDate startDate, LocalDate endDate, String search) {
+        var appointmentList = new AppointmentList();
+        var appointmentStream = appointmentRepository.findAll().stream();
+        AppointmentFilter appointmentFilter;
+        appointmentFilter = new AppointmentFilter(startDate, endDate, search);
+
+        Comparator<AppointmentListItem> compareHour =
+                Comparator.comparing(
+                        AppointmentListItem::getHour);
+        Comparator<AppointmentListItem> compareDate = Comparator.comparing(
+                AppointmentListItem::getDate);
+
+        appointmentList.setItems(
+                appointmentStream
+                        .filter(appointmentEty -> filter.test(appointmentEty, appointmentFilter))
+                        .map(AppointmentMapper.INSTANCE::mapAppointmentEtyToAppointmentDto)
+                        .sorted(compareDate.thenComparing(compareHour))
+                        .collect(Collectors.toList()));
+
+        return appointmentList;
+    }
 
     @Transactional
     public AppointmentDetailsList getAppointmentsDetails(LocalDate date, String search) {
@@ -75,11 +123,11 @@ public class AppointmentService {
         var appointmentStream = appointmentRepository.findAll().stream();
         String userId = securityAccessTokenProvider.getUserIdFromAuthToken();
         var role = securityAccessTokenProvider.getUserRoleFromAuthToken();
-        AppointmentFilter appointmentFilter;
+        AppointmentDetailsFilter appointmentDetailsFilter;
         if (role.contains("DOCTOR")) {
-            appointmentFilter = new AppointmentFilter(date, null, search, userId);
+            appointmentDetailsFilter = new AppointmentDetailsFilter(date, null, search, userId);
         } else {
-            appointmentFilter = new AppointmentFilter(date, search, null, userId);
+            appointmentDetailsFilter = new AppointmentDetailsFilter(date, search, null, userId);
         }
 
         Comparator<AppointmentDetailsListItem> compareHour =
@@ -90,8 +138,8 @@ public class AppointmentService {
 
         appointmentDetailsList.setItems(
                 appointmentStream
-                        .filter(leaveRequestEty -> filter.test(leaveRequestEty, appointmentFilter))
-                        .map(AppointmentMapper.INSTANCE::mapLeaveRequestEtyToLeaveRequestDto)
+                        .filter(appointmentEty -> filterDetails.test(appointmentEty, appointmentDetailsFilter))
+                        .map(AppointmentMapper.INSTANCE::mapAppointmentEtyToAppointmentDetailsDto)
                         .sorted(compareDate.thenComparing(compareHour))
                         .collect(Collectors.toList()));
 

@@ -55,7 +55,7 @@ public class PatientApi {
         String email = "timonea_raluca@yahoo.com"; // patient.getUser().getEmail();
         String subject = "Programare efectuata cu succes";
         String body = "Îți transmitem această notificare pentru a confirma programarea efectuata la clinica noastra in data de " + appointmentCreationRequest.getDate() + "ora " + appointmentCreationRequest.getHour() + "\n" + "Multimim pentru increderea acordata!\n" + "Cu respect,\n" + "Echipa DentalConnect";
-        senderEmailService.sendEmail(email, subject, body);
+        senderEmailService.sendEmail(email, body, subject);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

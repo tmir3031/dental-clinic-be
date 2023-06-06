@@ -37,7 +37,7 @@ public class SendEmailRemainderScheduleTask {
                     "Please arrive on time and bring any necessary documents or materials.\n\n" +
                     "Thank you,\n" +
                     "Your Healthcare Team";
-            senderEmailService.sendEmail(email, subject, body);
+            senderEmailService.sendEmail(email, body, subject);
         });
     }
 }
