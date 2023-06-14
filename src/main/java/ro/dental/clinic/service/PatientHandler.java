@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ro.dental.clinic.domain.PatientEty;
 import ro.dental.clinic.domain.PatientRepository;
-import ro.dental.clinic.domain.UserRepository;
-import ro.dental.clinic.mapper.PatientMapper;
 import ro.dental.clinic.model.PatientCreationRequest;
-import ro.dental.clinic.model.PatientDetailListItem;
 
 import java.util.Optional;
 

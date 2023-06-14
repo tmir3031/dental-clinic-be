@@ -6,7 +6,6 @@ public interface BearerTokenProvider {
 
 
     /**
-     *
      * @return the provided bearer token; might be null
      */
     @Nullable

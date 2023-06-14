@@ -3,7 +3,6 @@ package ro.dental.clinic.model;
 import lombok.Data;
 import ro.dental.clinic.enums.UserStatus;
 
-import java.time.Instant;
 import java.util.List;
 
 @Data

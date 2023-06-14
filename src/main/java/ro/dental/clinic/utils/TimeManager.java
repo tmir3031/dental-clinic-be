@@ -13,26 +13,18 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class TimeManager {
 
-  private final Clock clock;
+    private final Clock clock;
 
-  public Instant instant() {
-    return clock.instant();
-  }
+    public Instant instant() {
+        return clock.instant();
+    }
 
-  public LocalDate localDate() {
-    return LocalDate.ofInstant(clock.instant(), ZoneId.systemDefault());
-  }
+    public LocalDate localDate() {
+        return LocalDate.ofInstant(clock.instant(), ZoneId.systemDefault());
+    }
 
-  public int getCurrentYear() {
-    return localDate().getYear();
-  }
-
-  public Date date() {
-    return Date.from(clock.instant());
-  }
-
-  public Date dateTimePlusSecond(Long seconds) {
-    return Date.from(clock.instant().plusSeconds(seconds));
-  }
+    public Date date() {
+        return Date.from(clock.instant());
+    }
 
 }

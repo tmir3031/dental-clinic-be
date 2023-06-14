@@ -6,15 +6,12 @@ import ro.dental.clinic.enums.UserStatus;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "USR")
 public class UserEty extends SrgKeyEntityTml<String> {
-
     @Id
     @Column(name = "USER_ID")
     private String userId;

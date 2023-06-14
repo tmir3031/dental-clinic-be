@@ -174,7 +174,6 @@ public abstract class AccessTokenProviderTemplate implements BearerTokenProvider
     }
 
     static class AccessTokenDtls {
-
         String accessToken;
         String refreshToken;
         int expiresIn;

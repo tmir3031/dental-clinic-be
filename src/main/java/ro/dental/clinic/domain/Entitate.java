@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 @Entity
 @Table(name = "PHOTOS", schema = "public")
@@ -12,35 +13,38 @@ import javax.persistence.*;
 @SequenceGenerator(name = "PHOTOS_ID_SQ", sequenceName = "PHOTOS_ID_SQ", allocationSize = 1)
 
 public class Entitate extends SrgKeyEntityTml<Long> {
-        @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PHOTOS_ID_SQ")
-        private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PHOTOS_ID_SQ")
+    private Long id;
 
-        @ManyToOne(fetch = FetchType.LAZY, targetEntity = PatientEty.class)
-        @JoinColumn(name = "PATIENT_ID")
-        private PatientEty patient;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = PatientEty.class)
+    @JoinColumn(name = "PATIENT_ID")
+    private PatientEty patient;
 
-        @Column(name = "PHOTOS")
-        private String imageURL;
+    @Column(name = "PHOTOS")
+    private String imageURL;
 
-        @Column(name = "V")
-        private Long v;
+    @Column(name = "DATE")
+    private Instant date;
 
-        @Override
-        protected Class<? extends SrgKeyEntityTml<Long>> entityRefClass() {
-                return AppointmentEty.class;
-        }
+    @Column(name = "V")
+    private Long v;
 
-        @Override
-        public boolean equals(Object o) {
-                if (this == o) return true;
-                if (!(o instanceof AppointmentEty)) return false;
-                return id != null && id.equals(((AppointmentEty) o).getId());
-        }
+    @Override
+    protected Class<? extends SrgKeyEntityTml<Long>> entityRefClass() {
+        return AppointmentEty.class;
+    }
 
-        @Override
-        public int hashCode() {
-                return getClass().hashCode();
-        }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AppointmentEty)) return false;
+        return id != null && id.equals(((AppointmentEty) o).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 
 }

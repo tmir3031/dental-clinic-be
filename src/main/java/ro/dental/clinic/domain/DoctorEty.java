@@ -1,12 +1,9 @@
 package ro.dental.clinic.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import org.h2.engine.User;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +12,6 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "DOCTOR")
-//@Table(name = "DOCTOR", schema = "public")
-//public class DoctorEty extends SrgKeyEntityTml<String> implements Serializable {
 public class DoctorEty extends SrgKeyEntityTml<String> {
     @Column(name = "DESCRIPTION")
     private String description;
@@ -39,7 +34,6 @@ public class DoctorEty extends SrgKeyEntityTml<String> {
     )
     private List<AppointmentEty> appointmentEtyList = new ArrayList<>();
 
-    //@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE

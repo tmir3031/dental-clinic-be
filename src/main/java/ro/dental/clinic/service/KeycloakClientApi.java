@@ -52,7 +52,7 @@ public class KeycloakClientApi {
         } catch (HttpClientErrorException.Conflict exception) {
 
             throw new BusinessException(List.of(BusinessException.BusinessExceptionElement.builder()
-                    .errorCode(BusinessErrorCode.EMPLOYEE_USERNAME_CONFLICT)
+                    .errorCode(BusinessErrorCode.USER_USERNAME_CONFLICT)
                     .build()));
         }
 
@@ -74,7 +74,6 @@ public class KeycloakClientApi {
                 user.getRole());
 
 
-
         String realmRolesOfUserUrl = keycloakProperties.getApi().getBaseUrl() +
                 keycloakProperties.getApi().getUsers().getPath() + "/" +
                 user.getId() +
@@ -92,7 +91,7 @@ public class KeycloakClientApi {
         var newRoleRepresentation = keycloakRealmRoleService.findRoleByName(newRole);
         if (newRoleRepresentation == null) {
             throw new BusinessException(List.of(BusinessException.BusinessExceptionElement.builder()
-                    .errorCode(BusinessErrorCode.EMPLOYEE_ROLE_NOT_FOUND)
+                    .errorCode(BusinessErrorCode.USER_ROLE_NOT_FOUND)
                     .build()));
         }
 

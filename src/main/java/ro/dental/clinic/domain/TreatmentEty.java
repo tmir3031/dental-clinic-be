@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name = "TREATMENT")
-public class TreatmentEty extends SrgKeyEntityTml<Long>{
+public class TreatmentEty extends SrgKeyEntityTml<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TREATMENT_ID_SQ")
     private Long id;

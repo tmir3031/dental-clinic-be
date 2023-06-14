@@ -6,10 +6,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ro.dental.clinic.domain.Entitate;
 import ro.dental.clinic.domain.EntitateRepository;
+import ro.dental.clinic.domain.PatientEty;
 import ro.dental.clinic.domain.PatientRepository;
 import ro.dental.clinic.enums.BusinessErrorCode;
 import ro.dental.clinic.exceptions.BusinessException;
 import ro.dental.clinic.model.ImageModel;
+import ro.dental.clinic.utils.TimeManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -19,8 +21,9 @@ import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,13 +31,16 @@ public class PhotoService {
 
     private final EntitateRepository entitateRepository;
     private final PatientRepository patientRepository;
+    private final TimeManager timeManager;
 
     @Transactional
-    public void createEty(MultipartFile image, String userId) {
+    public void saveRadiography(MultipartFile image, String userId) {
         var entitate = new Entitate();
         String folder = "src/main/resources/photos/";
         try {
             byte[] bytes = image.getBytes();
+            var instant = timeManager.instant();
+            entitate.setDate(instant);
             entitate.setPatient(patientRepository.findById(userId).get());
             entitate.setImageURL(folder + image.getOriginalFilename());
 
@@ -53,56 +59,36 @@ public class PhotoService {
     }
 
     @Transactional
-    public ImageModel getImage(String userId) {
-        var myImageModel = new ImageModel();
-        try {
-            var patient = patientRepository.findById(userId).get();
-            var image = entitateRepository.getAllByPatient(patient).get(0);
-            URL url = new URL("file:./" + image.getImageURL());
-            ByteArrayOutputStream output = new ByteArrayOutputStream();
-            URLConnection conn = url.openConnection();
-            try (InputStream inputStream = conn.getInputStream()) {
-                int n = 0;
-                byte[] buffer = new byte[1024];
-                while (-1 != (n = inputStream.read(buffer))) {
-                    output.write(buffer, 0, n);
-                }
-            }
-            byte[] img = output.toByteArray();
-            myImageModel.setImage(img);
+    public List<ImageModel> getRadiographsForAPatient(String userId) {
+        List<ImageModel> imageModels;
+        PatientEty patient = patientRepository.findById(userId).orElseThrow(() -> new RuntimeException("Pacientul cu id-ul " + userId + " nu exista."));
+        List<Entitate> images = entitateRepository.getAllByPatient(patient);
 
-        } catch (IOException e) {
-            throw new BusinessException(List.of(BusinessException.BusinessExceptionElement.builder().errorCode(BusinessErrorCode.IMAGE_NOT_EXIST).build()));
-        }
-        return myImageModel;
-    }
-
-    @Transactional
-    public ArrayList<ImageModel> getImages(String userId) {
-        var myImages = new ArrayList<ImageModel>();
-        var myImageModel = new ImageModel();
-        try {
-            var patient = patientRepository.findById(userId).get();
-            var images = entitateRepository.getAllByPatient(patient);
-            for( var image: images) {
-                URL url = new URL("file:./" + image.getImageURL());
-                ByteArrayOutputStream output = new ByteArrayOutputStream();
-                URLConnection conn = url.openConnection();
-                try (InputStream inputStream = conn.getInputStream()) {
-                    int n = 0;
-                    byte[] buffer = new byte[1024];
-                    while (-1 != (n = inputStream.read(buffer))) {
-                        output.write(buffer, 0, n);
+        imageModels = images.stream()
+                .sorted(Comparator.comparing(Entitate::getDate).reversed())
+                .map(image -> {
+                    try {
+                        URL url = new URL("file:./" + image.getImageURL());
+                        ByteArrayOutputStream output = new ByteArrayOutputStream();
+                        URLConnection conn = url.openConnection();
+                        try (InputStream inputStream = conn.getInputStream()) {
+                            int n;
+                            byte[] buffer = new byte[1024];
+                            while (-1 != (n = inputStream.read(buffer))) {
+                                output.write(buffer, 0, n);
+                            }
+                        }
+                        byte[] img = output.toByteArray();
+                        ImageModel myImageModel = new ImageModel();
+                        myImageModel.setImage(img);
+                        myImageModel.setDate(image.getDate());
+                        return myImageModel;
+                    } catch (IOException e) {
+                        throw new BusinessException(List.of(BusinessException.BusinessExceptionElement.builder().errorCode(BusinessErrorCode.IMAGE_NOT_EXIST).build()));
                     }
-                }
-                byte[] img = output.toByteArray();
-                myImageModel.setImage(img);
-                myImages.add(myImageModel);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return myImages;
+                })
+                .collect(Collectors.toList());
+        return imageModels;
     }
+
 }

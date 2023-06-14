@@ -46,6 +46,7 @@ public class PatientEty extends SrgKeyEntityTml<String> implements Serializable 
     public String getId() {
         return this.user.getUserId();
     }
+
     @Override
     protected Class<? extends SrgKeyEntityTml<String>> entityRefClass() {
         return PatientEty.class;

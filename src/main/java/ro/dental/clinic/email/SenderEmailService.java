@@ -14,7 +14,7 @@ public class SenderEmailService {
     private JavaMailSender javaMailSender;
 
     @Async
-    public void sendEmail(String to, String text, String subject){
+    public void sendEmail(String to, String text, String subject) {
         SimpleMailMessage mailMessage
                 = new SimpleMailMessage();
         mailMessage.setFrom("timonea_raluca@yahoo.com");

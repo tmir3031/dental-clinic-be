@@ -28,26 +28,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-
                 .authorizeRequests()
-
                 .antMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/v1/refresh").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/v1/logout").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1/appointments").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1/patients").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/v1/doctors").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/doctors").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v1/prices").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1/specializations").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/v1/patients").permitAll()
-
                 .antMatchers(HttpMethod.POST, "/api/v1/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/api/v1/**").authenticated()
-                .antMatchers(HttpMethod.PATCH, "/api/v1/**").permitAll()
+                .antMatchers(HttpMethod.PATCH, "/api/v1/**").authenticated()
                 .antMatchers(HttpMethod.PUT, "/api/v1/**").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/api/v1/**").authenticated()
-
                 .and()
                 .oauth2ResourceServer(oauth2ResourceServer ->
                         oauth2ResourceServer.jwt(jwtConfigurer ->

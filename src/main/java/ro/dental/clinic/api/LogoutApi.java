@@ -12,7 +12,6 @@ import ro.dental.clinic.service.UserService;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/logout")
 public class LogoutApi {
-
     private final UserService userService;
 
     @PostMapping

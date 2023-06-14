@@ -24,11 +24,9 @@ public class LoginApi {
     private final JwtTokenClaimsParser jwtTokenClaimsParser;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(
-            @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
 
-        var keycloakLoginResponse = userService.login(loginRequest.getUsername(),
-                loginRequest.getPassword());
+        var keycloakLoginResponse = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
 
         var loginRs = new LoginResponse();
         loginRs.setAccessToken(keycloakLoginResponse.getAccessToken());
@@ -43,8 +41,7 @@ public class LoginApi {
 
     @PostMapping("/refresh")
     public ResponseEntity<RefreshResponse> refresh(@RequestBody RefreshRequest refreshRequest) {
-        var keycloakRefreshResponse = userService.refresh(
-                refreshRequest.getRefreshToken());
+        var keycloakRefreshResponse = userService.refresh(refreshRequest.getRefreshToken());
         var refreshResponse = new RefreshResponse();
         refreshResponse.setAccessToken(keycloakRefreshResponse.getAccessToken());
         refreshResponse.setRefreshToken(keycloakRefreshResponse.getRefreshToken());

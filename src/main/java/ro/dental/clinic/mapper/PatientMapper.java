@@ -4,12 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
-import ro.dental.clinic.domain.DoctorEty;
 import ro.dental.clinic.domain.PatientEty;
-import ro.dental.clinic.domain.UserEty;
-import ro.dental.clinic.model.DoctorDetailListItem;
 import ro.dental.clinic.model.PatientCreationRequest;
-import ro.dental.clinic.model.PatientDetailListItem;
 
 /**
  * Mapper used for converting UserEty object to UserDto object
@@ -30,7 +26,7 @@ public interface PatientMapper {
     @Mapping(target = "phone", source = "phone")
     @Mapping(target = "user.userId", ignore = true)
     @Mapping(target = "user.crtUsr", ignore = true)
-    @Mapping(target = "user.mdfUsr",ignore = true)
+    @Mapping(target = "user.mdfUsr", ignore = true)
     @Mapping(target = "user.crtTms", ignore = true)
     @Mapping(target = "user.mdfTms", ignore = true)
     @Mapping(target = "user.email", source = "email")
