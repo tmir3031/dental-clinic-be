@@ -29,14 +29,14 @@ public class SendEmailRemainderScheduleTask {
     public void sendAppointmentReminders() {
         log.info("Start finding tomorrow appointments in order to send reminder email");
         appointmentRepository.findAllByDate(LocalDate.now().plusDays(1)).forEach(appointment -> {
-            String email = "timonea_raluca@yahoo.com"; // appointment.getPatient().getUser().getEmail();
-            String subject = "Reminder: Appointment Tomorrow";
-            String body = "Dear " + appointment.getPatient().getUser().getLastName() + ",\n\n" +
-                    "This is a friendly reminder that you have an appointment tomorrow at " +
+            String email = "timonea_raluca@yahoo.com"; //appointment.getPatient().getUser().getEmail();
+            String subject = "Reamintire: Programare mâine";
+            String body = "Stimate/Stimată " + appointment.getPatient().getUser().getLastName() + ",\n\n" +
+                    "Acesta este un mesaj pentru a vă reaminti că aveți o programare mâine la ora " +
                     appointment.getHour() + ".\n\n" +
-                    "Please arrive on time and bring any necessary documents or materials.\n\n" +
-                    "Thank you,\n" +
-                    "Your Healthcare Team";
+                    "Vă rugăm să ajungeți la timp!.\n\n" +
+                    "Vă mulțumim,\n" +
+                    "Echipa dvs. de sănătate";
             senderEmailService.sendEmail(email, body, subject);
         });
     }

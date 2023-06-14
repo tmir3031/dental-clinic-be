@@ -4,6 +4,7 @@ package ro.dental.clinic.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,11 +26,13 @@ public class AdminApi {
     private final AppointmentService appointmentService;
 
     @GetMapping
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<UserAccountList> getAllUsers() {
         return ResponseEntity.ok(adminService.getAllUsers());
     }
 
     @GetMapping("/all-app")
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<AppointmentList> getAllAppointments(@RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                                                               @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
                                                               @RequestParam(value = "search", required = false) String search) {

@@ -56,6 +56,7 @@ dependencies {
 
     testAnnotationProcessor 'org.projectlombok:lombok'
 
+    testImplementation 'org.springframework.security:spring-security-test:5.6.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testImplementation 'org.mockito:mockito-junit-jupiter'

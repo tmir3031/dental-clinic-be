@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import ro.dental.clinic.email.SenderEmailService;
 import ro.dental.clinic.model.AppointmentCreationRequest;
@@ -47,6 +48,7 @@ public class PatientApi {
     }
 
     @PostMapping("/{patientId}/appointments")
+    @Secured({"ROLE_USER"})
     public ResponseEntity<Void> createAppointment(
             @PathVariable String patientId,
             @Valid @RequestBody AppointmentCreationRequest appointmentCreationRequest) {
@@ -61,6 +63,7 @@ public class PatientApi {
     }
 
     @PatchMapping("/{patientId}")
+    @Secured({"ROLE_USER"})
     public ResponseEntity<Void> updatePatient(@PathVariable String patientId,
                                               @Valid @RequestBody PatientUpdateRequest patientUpdateRequest) {
         patientService.updatePatient(patientId, patientUpdateRequest);

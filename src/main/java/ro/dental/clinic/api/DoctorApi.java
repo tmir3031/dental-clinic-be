@@ -31,6 +31,7 @@ public class DoctorApi {
     private final SenderEmailService senderEmailService;
 
     @PostMapping("/create")
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<Void> createDoctor(@Valid @RequestBody DoctorCreationRequest doctorCreationRequest) {
         var password = doctorService.generatePassword(8);
         doctorCreationRequest.setPassword(password);
@@ -48,6 +49,7 @@ public class DoctorApi {
     }
 
     @GetMapping("/my-patients/{doctorId}")
+    @Secured({"ROLE_DOCTOR"})
     public ResponseEntity<PatientDetailList> getAllPatientsForADoctor(@PathVariable String doctorId) {
         return ResponseEntity.ok(patientService.getAllPatientDTOsForADoctor(doctorId));
     }
@@ -75,6 +77,7 @@ public class DoctorApi {
     }
 
     @PostMapping("/save-image/{userId}")
+    @Secured({"ROLE_DOCTOR"})
     public ResponseEntity<Void> saveRadiography(@PathVariable String userId, @RequestParam("image") MultipartFile radiography) {
         photoService.saveRadiography(radiography, userId);
         return new ResponseEntity<>(HttpStatus.CREATED);
